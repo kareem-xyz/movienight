@@ -1,0 +1,41 @@
+TASKS 
+    # Try debugging or refining the search results for example:
+        # BUG: movies with original title not in english won't show up
+            - possible fix is to redownload the imdb website to scan for alternative titles and so on, because the api doesn't allow for that currently.
+        - Sorting to show the best movie or most popular or most matching (could use len() here)
+        - Unallowing bad input or manipulative
+        - Find a solution to the no movie found problem
+        - might have to fall back to the method of using a database.
+
+    # Rename the variables exchanges throughout the website
+
+    # Refine search.html
+        reforming the image sizes and row sizes, ratios seem like a good start
+
+    # Future ideas (extras):
+
+        - show a browse page with the top movies in imdb, or maybe in the homescreen itself.
+        - work on efficency and perhaps migrating the computation of varibales in jinnja to the python flask app
+        
+    # DONE :   
+        - add a background to layout.html (for example a blurred picture of red cinema seats, or maybe blurred posters of films)
+        - Change from storing data internally in javascript code into using sessionstorage.
+        - CSS Work on Choose Button (highlight chosen and unhighlight the others, by unhighlighting under the list div)
+        - Implement data exchange using ajax between javascript and python flask. 
+        - reform truncation for text description
+        function choose(button):
+        {
+            ##....some code
+
+            # for example: list = button.getAttribute('data-list');
+            # buttons = list.querySelectorAll('button');
+            # for (i = 0; i < buttons.length; i++) 
+            {
+                buttons[i].classList.remove("btn-primary");
+                buttons[i].classList.add("btn-outline-primary")
+            }
+            chosenbutton.classList.add("btn-primary");
+        }
+        -show a bootstrap loading spinner to show page loading. use javascript for toggling visibility.
+        might require to change how the form element of search work to run a js function first, and then redirect to /search
+    

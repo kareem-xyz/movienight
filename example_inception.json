@@ -1,0 +1,366 @@
+{
+  "entries": 9,
+  "next": null,
+  "page": 1,
+  "results": [
+    {
+      "_id": "650de1353c37c8fb57f4ab51",
+      "id": "tt29258696",
+      "originalTitleText": 
+      {
+        "__typename": "TitleText",
+        "text": "Madness Inception"
+      },
+      "primaryImage": null,
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 26,
+        "month": 12,
+        "year": 2022
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2022
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Madness Inception"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "canHaveEpisodes": false,
+        "categories": [
+          {
+            "__typename": "TitleTypeCategory",
+            "value": "movie"
+          }
+        ],
+        "displayableProperty": {
+          "__typename": "DisplayableTitleTypeProperty",
+          "value": {
+            "__typename": "Markdown",
+            "plainText": ""
+          }
+        },
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e59d08d8f3c0931e47fd95",
+      "id": "tt13039892",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "X - Inception"
+      },
+      "primaryImage": null,
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 21,
+        "month": 3,
+        "year": 2021
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2021
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "X - Inception"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e59276a66e596423455d9d",
+      "id": "tt11224722",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Insha Allah - An inception at closure"
+      },
+      "primaryImage": {
+        "__typename": "Image",
+        "caption": {
+          "__typename": "Markdown",
+          "plainText": "Insha Allah - An inception at closure (2019)"
+        },
+        "height": 683,
+        "id": "rm2164883457",
+        "url": "https://m.media-amazon.com/images/M/MV5BM2VmM2MzMTctNTRhZi00YzU1LTkyM2MtY2VkYTAwYzk4ZmM1XkEyXkFqcGdeQXVyMTExNzAyMjc5._V1_.jpg",
+        "width": 1024
+      },
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 25,
+        "month": 9,
+        "year": 2019
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2019
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Insha Allah - An inception at closure"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e5cb5e909c2ca78153355d",
+      "id": "tt8269586",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Bikini Inception"
+      },
+      "primaryImage": {
+        "__typename": "Image",
+        "caption": {
+          "__typename": "Markdown",
+          "plainText": "Ana Flavia Gavlak in Bikini Inception (2015)"
+        },
+        "height": 500,
+        "id": "rm4232596992",
+        "url": "https://m.media-amazon.com/images/M/MV5BNDk3NTNmNGEtOWJkYi00NGEyLThkZDQtOTBlZmRhN2IwYTk0XkEyXkFqcGdeQXVyNTM3MDMyMDQ@._V1_.jpg",
+        "width": 375
+      },
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 1,
+        "month": 1,
+        "year": 2017
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2015
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Bikini Inception"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e5b356cffb8f2faa4d7c13",
+      "id": "tt2278951",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Fraud in the Inception: Who killed Robert Hamlin and Dorothy Grega"
+      },
+      "primaryImage": {
+        "__typename": "Image",
+        "caption": {
+          "__typename": "Markdown",
+          "plainText": "Janet Christensen-Obrien in Fraud in the Inception: Who killed Robert Hamlin and Dorothy Grega (2013)"
+        },
+        "height": 4032,
+        "id": "rm2637543681",
+        "url": "https://m.media-amazon.com/images/M/MV5BNTBkNjliZjktOTI0ZS00ZWYzLWIwOTAtN2U0YjdiNmEwNjcyXkEyXkFqcGdeQXVyMTM2Mjg2MTM@._V1_.jpg",
+        "width": 3024
+      },
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 10,
+        "month": 7,
+        "year": 2013
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2013
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Fraud in the Inception: Who killed Robert Hamlin and Dorothy Grega"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e5b9d5b597b91eb94efe95",
+      "id": "tt3563778",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Inception of a lost Art"
+      },
+      "primaryImage": {
+        "__typename": "Image",
+        "caption": {
+          "__typename": "Markdown",
+          "plainText": "Inception of a lost Art (2013)"
+        },
+        "height": 1514,
+        "id": "rm2669123329",
+        "url": "https://m.media-amazon.com/images/M/MV5BNGZmYTc3OGItMzk3MS00YzIzLWExMzUtMzE4MDNkOGFiZWU0XkEyXkFqcGdeQXVyNDg2NjU3NTI@._V1_.jpg",
+        "width": 2936
+      },
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": null,
+        "month": 8,
+        "year": 2013
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2013
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Inception of a lost Art"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e59c9078c012aa3447db35",
+      "id": "tt12960252",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Inception Premiere"
+      },
+      "primaryImage": null,
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 13,
+        "month": 7,
+        "year": 2010
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2010
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Inception Premiere"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "61e5a11cd735dff3f949030f",
+      "id": "tt1375666",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Inception"
+      },
+      "primaryImage": {
+        "__typename": "Image",
+        "caption": {
+          "__typename": "Markdown",
+          "plainText": "Leonardo DiCaprio, Tom Berenger, Michael Caine, Lukas Haas, Marion Cotillard, Joseph Gordon-Levitt, Tom Hardy, Elliot Page, Ken Watanabe, and Dileep Rao in Inception (2010)"
+        },
+        "height": 1037,
+        "id": "rm3426651392",
+        "url": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
+        "width": 700
+      },
+      "releaseDate": {
+        "__typename": "ReleaseDate",
+        "day": 16,
+        "month": 7,
+        "year": 2010
+      },
+      "releaseYear": {
+        "__typename": "YearRange",
+        "endYear": null,
+        "year": 2010
+      },
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Inception"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    },
+    {
+      "_id": "646520ef2311c63d1d148ce8",
+      "id": "tt27758177",
+      "originalTitleText": {
+        "__typename": "TitleText",
+        "text": "Inception 2 - Deception - The Ken Davis Documentary"
+      },
+      "primaryImage": {
+        "__typename": "Image",
+        "caption": {
+          "__typename": "Markdown",
+          "plainText": "Kenneth Ian Davis in Inception 2 - Deception - The Ken Davis Documentary"
+        },
+        "height": 1000,
+        "id": "rm2511872513",
+        "url": "https://m.media-amazon.com/images/M/MV5BZWNjZTc4YjAtNzc2MC00YTBmLWI4MjgtOWRjODIxNzQwMjJhXkEyXkFqcGdeQXVyNDM0NDI1NTc@._V1_.jpg",
+        "width": 1367
+      },
+      "releaseDate": null,
+      "releaseYear": null,
+      "titleText": {
+        "__typename": "TitleText",
+        "text": "Inception 2 - Deception - The Ken Davis Documentary"
+      },
+      "titleType": {
+        "__typename": "TitleType",
+        "canHaveEpisodes": false,
+        "categories": [
+          {
+            "__typename": "TitleTypeCategory",
+            "value": "movie"
+          }
+        ],
+        "displayableProperty": {
+          "__typename": "DisplayableTitleTypeProperty",
+          "value": {
+            "__typename": "Markdown",
+            "plainText": ""
+          }
+        },
+        "id": "movie",
+        "isEpisode": false,
+        "isSeries": false,
+        "text": "Movie"
+      }
+    }
+  ]
+}

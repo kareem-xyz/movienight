@@ -1,0 +1,313 @@
+{
+    "results": {
+      "_id": "61e5a11cd735dff3f949030f",
+      "id": "tt1375666",
+      "ratingsSummary": {
+        "aggregateRating": 8.8,
+        "voteCount": 2488802,
+        "__typename": "RatingsSummary"
+      },
+      "episodes": null,
+      "primaryImage": {
+        "id": "rm3426651392",
+        "width": 700,
+        "height": 1037,
+        "url": "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
+        "caption": {
+          "plainText": "Leonardo DiCaprio, Tom Berenger, Michael Caine, Lukas Haas, Marion Cotillard, Joseph Gordon-Levitt, Tom Hardy, Elliot Page, Ken Watanabe, and Dileep Rao in Inception (2010)",
+          "__typename": "Markdown"
+        },
+        "__typename": "Image"
+      },
+      "titleType": {
+        "text": "Movie",
+        "id": "movie",
+        "isSeries": false,
+        "isEpisode": false,
+        "__typename": "TitleType"
+      },
+      "principalCast": [
+        {
+          "credits": [
+            {
+              "name": {
+                "id": "nm0000138",
+                "nameText": {
+                  "text": "Leonardo DiCaprio",
+                  "__typename": "NameText"
+                },
+                "primaryImage": {
+                  "url": "https://m.media-amazon.com/images/M/MV5BMjI0MTg3MzI0M15BMl5BanBnXkFtZTcwMzQyODU2Mw@@._V1_.jpg",
+                  "width": 297,
+                  "height": 400,
+                  "__typename": "Image"
+                },
+                "__typename": "Name"
+              },
+              "attributes": null,
+              "characters": [
+                {
+                  "name": "Cobb",
+                  "__typename": "Character"
+                }
+              ],
+              "episodeCredits": {
+                "total": 0,
+                "yearRange": null,
+                "__typename": "EpisodeCastConnection"
+              },
+              "__typename": "Cast"
+            },
+            {
+              "name": {
+                "id": "nm0330687",
+                "nameText": {
+                  "text": "Joseph Gordon-Levitt",
+                  "__typename": "NameText"
+                },
+                "primaryImage": {
+                  "url": "https://m.media-amazon.com/images/M/MV5BMTY3NTk0NDI3Ml5BMl5BanBnXkFtZTgwNDA3NjY0MjE@._V1_.jpg",
+                  "width": 1421,
+                  "height": 2048,
+                  "__typename": "Image"
+                },
+                "__typename": "Name"
+              },
+              "attributes": null,
+              "characters": [
+                {
+                  "name": "Arthur",
+                  "__typename": "Character"
+                }
+              ],
+              "episodeCredits": {
+                "total": 0,
+                "yearRange": null,
+                "__typename": "EpisodeCastConnection"
+              },
+              "__typename": "Cast"
+            },
+            {
+              "name": {
+                "id": "nm0680983",
+                "nameText": {
+                  "text": "Elliot Page",
+                  "__typename": "NameText"
+                },
+                "primaryImage": {
+                  "url": "https://m.media-amazon.com/images/M/MV5BYWY0NzFmYjAtYzMwNC00ODc3LWI2ZWEtOTU3YTM0Y2ZiNTM5XkEyXkFqcGdeQXVyMDA4NzMyOA@@._V1_.jpg",
+                  "width": 545,
+                  "height": 730,
+                  "__typename": "Image"
+                },
+                "__typename": "Name"
+              },
+              "attributes": null,
+              "characters": [
+                {
+                  "name": "Ariadne",
+                  "__typename": "Character"
+                }
+              ],
+              "episodeCredits": {
+                "total": 0,
+                "yearRange": null,
+                "__typename": "EpisodeCastConnection"
+              },
+              "__typename": "Cast"
+            },
+            {
+              "name": {
+                "id": "nm0913822",
+                "nameText": {
+                  "text": "Ken Watanabe",
+                  "__typename": "NameText"
+                },
+                "primaryImage": {
+                  "url": "https://m.media-amazon.com/images/M/MV5BMTQzMTUzNjc4Nl5BMl5BanBnXkFtZTcwMTUyODU2Mw@@._V1_.jpg",
+                  "width": 277,
+                  "height": 400,
+                  "__typename": "Image"
+                },
+                "__typename": "Name"
+              },
+              "attributes": null,
+              "characters": [
+                {
+                  "name": "Saito",
+                  "__typename": "Character"
+                }
+              ],
+              "episodeCredits": {
+                "total": 0,
+                "yearRange": null,
+                "__typename": "EpisodeCastConnection"
+              },
+              "__typename": "Cast"
+            }
+          ],
+          "__typename": "PrincipalCreditsForCategory"
+        }
+      ],
+      "creators": [],
+      "directors": [
+        {
+          "totalCredits": 1,
+          "category": {
+            "text": "Director",
+            "__typename": "CreditCategory"
+          },
+          "credits": [
+            {
+              "name": {
+                "id": "nm0634240",
+                "nameText": {
+                  "text": "Christopher Nolan",
+                  "__typename": "NameText"
+                },
+                "__typename": "Name"
+              },
+              "attributes": null,
+              "__typename": "Crew"
+            }
+          ],
+          "__typename": "PrincipalCreditsForCategory"
+        }
+      ],
+      "writers": [
+        {
+          "totalCredits": 1,
+          "category": {
+            "text": "Writer",
+            "__typename": "CreditCategory"
+          },
+          "credits": [
+            {
+              "name": {
+                "id": "nm0634240",
+                "nameText": {
+                  "text": "Christopher Nolan",
+                  "__typename": "NameText"
+                },
+                "__typename": "Name"
+              },
+              "attributes": null,
+              "__typename": "Crew"
+            }
+          ],
+          "__typename": "PrincipalCreditsForCategory"
+        }
+      ],
+      "genres": {
+        "genres": [
+          {
+            "text": "Action",
+            "id": "Action",
+            "__typename": "Genre"
+          },
+          {
+            "text": "Adventure",
+            "id": "Adventure",
+            "__typename": "Genre"
+          },
+          {
+            "text": "Sci-Fi",
+            "id": "Sci-Fi",
+            "__typename": "Genre"
+          },
+          {
+            "text": "Thriller",
+            "id": "Thriller",
+            "__typename": "Genre"
+          }
+        ],
+        "__typename": "Genres"
+      },
+      "titleText": {
+        "text": "Inception",
+        "__typename": "TitleText"
+      },
+      "originalTitleText": {
+        "text": "Inception",
+        "__typename": "TitleText"
+      },
+      "releaseYear": {
+        "year": 2010,
+        "endYear": null,
+        "__typename": "YearRange"
+      },
+      "releaseDate": {
+        "day": 16,
+        "month": 7,
+        "year": 2010,
+        "__typename": "ReleaseDate"
+      },
+      "runtime": {
+        "seconds": 8880,
+        "__typename": "Runtime"
+      },
+      "series": null,
+      "meterRanking": {
+        "currentRank": 148,
+        "rankChange": {
+          "changeDirection": "UP",
+          "difference": 34,
+          "__typename": "MeterRankChange"
+        },
+        "__typename": "TitleMeterRanking"
+      },
+      "keywords": {
+        "total": 453,
+        "edges": [
+          {
+            "node": {
+              "text": "dream",
+              "__typename": "TitleKeyword"
+            },
+            "__typename": "TitleKeywordEdge"
+          },
+          {
+            "node": {
+              "text": "ambiguous ending",
+              "__typename": "TitleKeyword"
+            },
+            "__typename": "TitleKeywordEdge"
+          },
+          {
+            "node": {
+              "text": "subconscious",
+              "__typename": "TitleKeyword"
+            },
+            "__typename": "TitleKeywordEdge"
+          },
+          {
+            "node": {
+              "text": "surprise ending",
+              "__typename": "TitleKeyword"
+            },
+            "__typename": "TitleKeywordEdge"
+          },
+          {
+            "node": {
+              "text": "mindbender",
+              "__typename": "TitleKeyword"
+            },
+            "__typename": "TitleKeywordEdge"
+          }
+        ],
+        "__typename": "TitleKeywordConnection"
+      },
+      "plot": {
+        "plotText": {
+          "plainText": "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.",
+          "__typename": "Markdown"
+        },
+        "language": {
+          "id": "en-US",
+          "__typename": "DisplayableLanguage"
+        },
+        "__typename": "Plot"
+      },
+      "trailer": "https://www.youtube.com/embed/YoHD9XEInc0"
+    }
+  }
