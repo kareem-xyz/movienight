@@ -53,8 +53,6 @@ function choose(button)
 
 function InputAndSubmit(event) {
 
-    // Prevent the default form submission
-
     // Create a hidden input field to add choices
     var hiddenInput_0 = document.createElement('input');
     var hiddenInput_1 = document.createElement('input');
@@ -62,16 +60,17 @@ function InputAndSubmit(event) {
     hiddenInput_0.type = 'hidden';
     hiddenInput_1.type = 'hidden';
 
-    hiddenInput_0.name = 'choice_0';
-    hiddenInput_1.name = 'choice_1';
-
+    hiddenInput_0.name = 'cast_0';
+    hiddenInput_1.name = 'cast_1';
+    
     // Currently sends the whole choice data (later on will refine to save data)
-    hiddenInput_0.value = sessionStorage.getItem('choice_0');
-    hiddenInput_1.value = sessionStorage.getItem('choice_1');
+    hiddenInput_0.value = getMovieCast(sessionStorage.getItem('choice_0'));
+    hiddenInput_1.value = getMovieCast(sessionStorage.getItem('choice_1'));
 
-    // Check if choice_0 and choice_1 exist
-    if (hiddenInput_0 =='null' || hiddenInput_1 =='null')
+    // Check if function calls succeeded
+    if (!(hiddenInput_0.value && hiddenInput_1.value))
     {
+        console.error('CHOOSE BOTH MOVIES PLEASE');
         return false;
     }
 
@@ -81,5 +80,51 @@ function InputAndSubmit(event) {
 
     // Continue with the form submission
     return true; // Returning true allows the form submission to proceed
+}
+
+function getMovieCast(movie) {
+    // Catching Wrong in Input
+    if (typeof movie != 'object'){
+        if (typeof movie =='string'){
+            try {
+                movie = JSON.parse(movie)
+              }
+              catch(err) {
+                console.error(err);
+                return undefined;
+              }
+        }
+        else {
+            console.error('Movie passed wasn\'t a JS object, nor a string object in JSON format, nor an array.')
+            return undefined;
+        }
+    }
+
+    // Create an array to store values.
+    let cast = [];
+
+    // Add values from movie data
+    cast.push(movie?.['directors'][0]?.['credits']?.[0]?.['name']?.['id'])
+    cast.push(movie?.['creators'][0]?.['credits']?.[0]?.['name']?.['id'])
+    cast.push(movie?.['writers'][0]?.['credits']?.[0]?.['name']?.['id'])
+
+    let tmp = movie?.['principalCast'][0]?.['credits'];
+    if (tmp)
+    {
+        for (let i = 0; i < tmp.length; i++)
+        {
+            cast.push(tmp[i]?.['name']?.['id'])
+        }
+    }
+    
+    // Clean array from undefined values
+    for (i = 0; i < cast.length; i++)
+    {
+        if (cast[i] == undefined){
+            cast.splice(i, 1);
+        }
+    }
+    // return array of strings containing actors IDs.
+    return cast;
 }
 
