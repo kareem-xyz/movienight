@@ -105,5 +105,6 @@ def compare():
 
 @app.route("/fight", methods=['POST', 'GET'])
 def fight():
+    #TEST
     # Receive 2 Arrays each containing strings for actors IDs and run api requests asynchronously for each one sending the data to the endpoint actors/id to get similar movies for each one, append each to array and return back to render questions.html
     return render_template('questions.html')
