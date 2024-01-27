@@ -1,14 +1,20 @@
+from ast import Constant
 from os import error
 from flask import Flask, render_template, request, redirect 
-import json
 import requests # Used in the query Api
-from operator import itemgetter # used for sorting of responses from api
+import httpx
+import asyncio
 
 # Configure Application
 app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
+# Used in each Api request.
+headers = {
+        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
+        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
+    }
 
 # Load index
 @app.route('/')
@@ -28,28 +34,12 @@ def search():
     # Movie Databases Api to get Movie's Data.
     # https://rapidapi.com/SAdrian/api/moviesdatabase/
 
-    # Format Api Urls for each movie inputed
-    url_0 = "https://moviesdatabase.p.rapidapi.com/titles/search/title/" + input_0
-    url_1 = "https://moviesdatabase.p.rapidapi.com/titles/search/title/" + input_1
-
     # Api Specifics (login key and query parameters)
     querystring = {"exact":"false","titleType":"movie", "info":"custom_info"}
-    headers = {
-        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
-        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
-    }
 
     # Run Api
-    response_0 = requests.get(url_0, headers=headers, params=querystring)
-    response_1 = requests.get(url_1, headers=headers, params=querystring)
-
-    # Convert response to json format to exchange with JS
-    json_0 = response_0.json()
-    json_1 = response_1.json()
-
-    # Take the useful data only
-    data_0 = json_0['results']
-    data_1 = json_1['results']
+    data_0 = get_movie_data(title=input_0, params=querystring)
+    data_1 = get_movie_data(title=input_1, params=querystring)
 
     # Format Movies for sending (jsonifying and sorting)
     if data_0:
@@ -73,6 +63,55 @@ def search():
                 continue
             
     return render_template('search.html', datalist_0=data_0, datalist_1=data_1)
+
+@app.route("/fight", methods=['POST', 'GET'])
+def fight():
+     # Get list of IDs for director, creators, writers, and cast of each movie
+    cast_0 = request.form.get('cast_0')
+    cast_1 = request.form.get('cast_1')
+
+    # Check for invalid input
+    if not (cast_0 and cast_1):
+        return render_template('bug.html', bug='Did not receive cast list for both movies. ERROR 100')
+    try :
+        # Since values are a single line of csv strings. We can just split.
+        cast_0 = cast_0.split(',')
+        cast_1 = cast_1.split(',')
+    except Exception as e:
+        return render_template('bug.html', bug=f'Some error with data: {str(e)}')
+
+    # Run API. Use asyncio to run the asynchronous function for both lists concurrently
+    loop = asyncio.get_event_loop()
+    results = loop.run_until_complete(asyncio.gather(get_all_actors_info(cast_0), get_all_actors_info(cast_1)))
+
+    # Unpack results for each list
+    list_0, list_1 = results
+
+    return render_template('questions.html', similarMovies0=list_0, similarMovies1=list_1)
+
+    
+# get Data for one movie. Takes movie title and parameters as input.
+def get_movie_data(title, params):
+    base_url='https://moviesdatabase.p.rapidapi.com/titles/search/title/'
+    response = requests.get(base_url + title, headers=headers, params=params)
+    # Convert to json and return only the results
+    return response.json()['results']
+    
+# Data for list of actors. Asyncio. Takes list of cast IDs.
+async def get_all_actors_info(cast_list):
+    async with httpx.AsyncClient() as client:
+        coroutines = [get_actor_info(actor_id) for actor_id in cast_list]
+        return await asyncio.gather(*coroutines)
+    
+# Data for One actor. Asyncio Takes a single actor ID.
+async def get_actor_info(actor_id):
+    base_url='https://moviesdatabase.p.rapidapi.com/actors/'
+    async with httpx.AsyncClient() as client:
+        response = await client.get(base_url + actor_id, headers=headers)
+        return response.json()
+
+
+
 
 # DEPRECATED FOR NOW
 """
@@ -103,8 +142,3 @@ def compare():
     return render_template('compare.html', m0=json_0["results"], m1=json_1["results"])
 """
 
-@app.route("/fight", methods=['POST', 'GET'])
-def fight():
-    #TEST
-    # Receive 2 Arrays each containing strings for actors IDs and run api requests asynchronously for each one sending the data to the endpoint actors/id to get similar movies for each one, append each to array and return back to render questions.html
-    return render_template('questions.html')
