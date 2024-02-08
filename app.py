@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, redirect
 import requests # Used in the query Api
 import httpx
 import asyncio
+from concurrent.futures import ThreadPoolExecutor
 
 # Configure Application
 app = Flask(__name__)
@@ -15,6 +16,7 @@ headers = {
         "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
         "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
     }
+executor = ThreadPoolExecutor()
 
 # Load index
 @app.route('/')
@@ -81,11 +83,10 @@ def fight():
         return render_template('bug.html', bug=f'Some error with data: {str(e)}')
 
     # Run API. Use asyncio to run the asynchronous function for both lists concurrently
-    loop = asyncio.get_event_loop()
-    results = loop.run_until_complete(asyncio.gather(get_all_actors_info(cast_0), get_all_actors_info(cast_1)))
-
-    # Unpack results for each list
-    list_0, list_1 = results
+    try:
+        list_0, list_1 = run_async(get_all_actors_info(cast_0)), run_async(get_all_actors_info(cast_1))
+    except Exception as e:
+        return render_template('bug.html', bug=f'Error fetching actor info: {str(e)}')
 
     return render_template('questions.html', similarMovies0=list_0, similarMovies1=list_1)
 
@@ -99,18 +100,22 @@ def get_movie_data(title, params):
     
 # Data for list of actors. Asyncio. Takes list of cast IDs.
 async def get_all_actors_info(cast_list):
-    async with httpx.AsyncClient() as client:
-        coroutines = [get_actor_info(actor_id) for actor_id in cast_list]
-        return await asyncio.gather(*coroutines)
+    coroutines = [get_actor_info(actor_id) for actor_id in cast_list]
+    return await asyncio.gather(*coroutines)
     
 # Data for One actor. Asyncio Takes a single actor ID.
 async def get_actor_info(actor_id):
-    base_url='https://moviesdatabase.p.rapidapi.com/actors/'
+    base_url = 'https://moviesdatabase.p.rapidapi.com/actors/'
     async with httpx.AsyncClient() as client:
         response = await client.get(base_url + actor_id, headers=headers)
         return response.json()
 
-
+def run_async(func):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    result = loop.run_until_complete(func)
+    loop.close()
+    return result
 
 
 # DEPRECATED FOR NOW
