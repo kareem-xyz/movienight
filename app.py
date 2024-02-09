@@ -1,21 +1,15 @@
-from ast import Constant
-from os import error
+
+
 from flask import Flask, render_template, request, redirect 
-import requests # Used in the query Api
-import httpx
-import asyncio
 from concurrent.futures import ThreadPoolExecutor
+from helpers import * # import all helper function from helper.py
 
 # Configure Application
 app = Flask(__name__)
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
-# Used in each Api request.
-headers = {
-        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
-        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
-    }
+
 executor = ThreadPoolExecutor()
 
 # Load index
@@ -40,8 +34,8 @@ def search():
     querystring = {"exact":"false","titleType":"movie", "info":"custom_info"}
 
     # Run Api
-    data_0 = get_movie_data(title=input_0, params=querystring)
-    data_1 = get_movie_data(title=input_1, params=querystring)
+    data_0 = get_movie_info(title=input_0, params=querystring)
+    data_1 = get_movie_info(title=input_1, params=querystring)
 
     # Format Movies for sending (jsonifying and sorting)
     if data_0:
@@ -49,9 +43,7 @@ def search():
         for i in range(len(data_0)) :
             try:
                 data_0[i]['plot']['plotText']['plainText'] = data_0[i]['plot']['plotText']['plainText'].replace('"', "'")
-            except TypeError as t:
-                print(i)
-                print(t)
+            except TypeError:
                 continue
 
     if data_1:
@@ -59,9 +51,7 @@ def search():
         for i in range(len(data_1)) :
             try:
                 data_1[i]['plot']['plotText']['plainText'] = data_1[i]['plot']['plotText']['plainText'].replace('"', "'")
-            except TypeError as t:
-                print(i)
-                print(t)
+            except TypeError:
                 continue
             
     return render_template('search.html', datalist_0=data_0, datalist_1=data_1)
@@ -82,40 +72,40 @@ def fight():
     except Exception as e:
         return render_template('bug.html', bug=f'Some error with data: {str(e)}')
 
-    # Run API. Use asyncio to run the asynchronous function for both lists concurrently
+    # Run API to Get ACTORS data Use asyncio to run the asynchronous function for both lists concurrently
     try:
         list_0, list_1 = run_async(get_all_actors_info(cast_0)), run_async(get_all_actors_info(cast_1))
     except Exception as e:
         return render_template('bug.html', bug=f'Error fetching actor info: {str(e)}')
+    
+    # Run API to Get Movies of Actors
+    movies_IDs_0 = ''
+    movies_IDs_1 = ''
+    for index, actor in enumerate(list_0):
+        try:
+            movies_IDs_0 += ',' + actor['results']['knownForTitles']
+        except Exception as e:
+            print(f'Error at index {index}')
+            print(e)
+            continue
+    for index, actor in enumerate(list_1):
+        try:
+            movies_IDs_1 += ',' + actor['results']['knownForTitles']
+        except Exception as e:
+            print(f'Error at index {index}')
+            print(e)
+            continue
+ 
+    data_0 = get_all_movies_info(IDs_list=movies_IDs_0)
+    data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
 
-    return render_template('questions.html', similarMovies0=list_0, similarMovies1=list_1)
+    return render_template('questions.html', similarMovies0=data_0, similarMovies1=data_1)
+
+
 
     
-# get Data for one movie. Takes movie title and parameters as input.
-def get_movie_data(title, params):
-    base_url='https://moviesdatabase.p.rapidapi.com/titles/search/title/'
-    response = requests.get(base_url + title, headers=headers, params=params)
-    # Convert to json and return only the results
-    return response.json()['results']
-    
-# Data for list of actors. Asyncio. Takes list of cast IDs.
-async def get_all_actors_info(cast_list):
-    coroutines = [get_actor_info(actor_id) for actor_id in cast_list]
-    return await asyncio.gather(*coroutines)
-    
-# Data for One actor. Asyncio Takes a single actor ID.
-async def get_actor_info(actor_id):
-    base_url = 'https://moviesdatabase.p.rapidapi.com/actors/'
-    async with httpx.AsyncClient() as client:
-        response = await client.get(base_url + actor_id, headers=headers)
-        return response.json()
 
-def run_async(func):
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    result = loop.run_until_complete(func)
-    loop.close()
-    return result
+
 
 
 # DEPRECATED FOR NOW
