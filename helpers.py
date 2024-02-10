@@ -4,7 +4,6 @@ from flask import Flask, render_template, request, redirect
 import requests # Used in the query Api
 import httpx
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 
 # Used in each Api request.
 headers = {

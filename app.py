@@ -79,23 +79,27 @@ def fight():
         return render_template('bug.html', bug=f'Error fetching actor info: {str(e)}')
     
     # Run API to Get Movies of Actors
-    movies_IDs_0 = ''
-    movies_IDs_1 = ''
+    movies_IDs_0 = []
+    movies_IDs_1 = []
     for index, actor in enumerate(list_0):
         try:
-            movies_IDs_0 += ',' + actor['results']['knownForTitles']
+            movies_IDs_0 += (actor['results']['knownForTitles']).split(',')
         except Exception as e:
             print(f'Error at index {index}')
             print(e)
             continue
     for index, actor in enumerate(list_1):
         try:
-            movies_IDs_1 += ',' + actor['results']['knownForTitles']
+            movies_IDs_1 += (actor['results']['knownForTitles']).split(',')
         except Exception as e:
             print(f'Error at index {index}')
             print(e)
             continue
- 
+
+    # Remove duplicates from list (works by converting to dict and back to list)
+    movies_IDs_0 = list(dict.fromkeys(movies_IDs_0))
+    movies_IDs_1 = list(dict.fromkeys(movies_IDs_1))
+
     data_0 = get_all_movies_info(IDs_list=movies_IDs_0)
     data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
 
