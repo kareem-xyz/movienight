@@ -12,6 +12,9 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 executor = ThreadPoolExecutor()
 
+@app.route('/test')
+def test():
+    return render_template('test.html')
 # Load index
 @app.route('/')
 def index():

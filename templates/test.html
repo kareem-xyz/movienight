@@ -1,0 +1,54 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container text-start" id="questions">
+    <h2>Questions</h2>
+    <div class='mb-4 q' id="q0">
+      <h5>1. How many people will take this quiz?</h5>
+      <input type="radio" class="btn-check" name="options-base" id="q0-option0" value="1">
+      <label class="m-2 btn btn-outline-light" for="q0-option0">One</label>
+      
+      <input type="radio" class="btn-check" name="options-base" id="q0-option1" value="2">
+      <label class="m-2 btn btn-outline-light" for="q0-option1">Two</label>
+      
+      <input type="radio" class="btn-check" name="options-base" id="q0-option2" value="3">
+      <label class="m-2 btn btn-outline-light" for="q0-option2">Three</label>
+    </div>
+    <!-- Number of people should allow us to determine how many times we will give the quiz -->
+
+    <div class='mb-4 q' id="q1">
+      <h5>2. Does the movie have to be family friendly?</h5>
+      <input type="radio" class="btn-check" name="options-base1" id="q1-option0" value="true">
+      <label class="m-2 btn btn-outline-light" for="q1-option0">Yes</label>
+      
+      <input type="radio" class="btn-check" name="options-base1" id="q1-option1" value="false">
+      <label class="m-2 btn btn-outline-light" for="q1-option1">No</label>
+      
+      <input type="radio" class="btn-check" name="options-base1" id="q1-option2" value="None">
+      <label class="m-2 btn btn-outline-light" for="q1-option2">Doesn't matter</label>
+    </div>
+
+<!-- --------------------------------------------------------------- --><br><br>
+<!-- For Vertical Radios -->
+    <!-- <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" value="1">
+        <label class="btn btn btn-outline-light" for="vbtn-radio1">1</label>
+        <br>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" value="2" >
+        <label class="btn btn btn-outline-light" for="vbtn-radio2">2</label>
+        <br>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" value="3" >
+        <label class="btn btn btn-outline-light" for="vbtn-radio3">3</label>
+
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" value="other">
+        <label class="btn btn-outline-light" for="vbtn-radio4">Other</label>
+        <input type="text" id="customValueInput" class="form-control" style="display: none;">
+    </div> -->
+</div>
+{% endblock %}
+{% block scripts_body %}
+<script>
+// Array to hold points for each question.
+let points_per_q = [];
+let points_total = 0;
+</script>
+{% endblock %}
