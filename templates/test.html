@@ -2,8 +2,8 @@
 {% block body %}
 <div class="container text-start" id="questions">
     <h2>Questions</h2>
-    <div class='mb-4 q' id="q0">
-      <h5>1. How many people will take this quiz?</h5>
+    <!-- <div class='mb-4 q' id="q0"> For later on
+      <h5>1. How many people will be watching?</h5>
       <input type="radio" class="btn-check" name="options-base" id="q0-option0" value="1">
       <label class="m-2 btn btn-outline-light" for="q0-option0">One</label>
       
@@ -11,8 +11,12 @@
       <label class="m-2 btn btn-outline-light" for="q0-option1">Two</label>
       
       <input type="radio" class="btn-check" name="options-base" id="q0-option2" value="3">
-      <label class="m-2 btn btn-outline-light" for="q0-option2">Three</label>
-    </div>
+      <label class="m-2 btn btn-outline-light" for="q0-option2">Three</label> -->
+
+      <!-- <input type="radio" class="btn-check" name="options-base" id="q0-option3" onclick="showInputField(this);" value="none">
+      <label class="m-2 btn btn-outline-light" for="q0-option3">More?</label>
+      <input type="number" class="btn btn-outline-light display-hide" min="1" id="q0-option3-input" onchange="">
+    </div> -->
     <!-- Number of people should allow us to determine how many times we will give the quiz -->
 
     <div class='mb-4 q' id="q1">
@@ -22,10 +26,9 @@
       
       <input type="radio" class="btn-check" name="options-base1" id="q1-option1" value="false">
       <label class="m-2 btn btn-outline-light" for="q1-option1">No</label>
-      
-      <input type="radio" class="btn-check" name="options-base1" id="q1-option2" value="None">
-      <label class="m-2 btn btn-outline-light" for="q1-option2">Doesn't matter</label>
     </div>
+
+    <button class="btn btn-outline-primary w-25">START QUIZ</button>
 
 <!-- --------------------------------------------------------------- --><br><br>
 <!-- For Vertical Radios -->
@@ -46,9 +49,5 @@
 </div>
 {% endblock %}
 {% block scripts_body %}
-<script>
-// Array to hold points for each question.
-let points_per_q = [];
-let points_total = 0;
-</script>
+<script src="static/helpers.js"></script>
 {% endblock %}

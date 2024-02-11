@@ -9,6 +9,17 @@ for (let i = 0; i < 2; i++)
     highlighted[i] = ""
 }
 
+
+function showInputField(label)
+{
+   // Show child element
+   child_id = label.id + '-input';
+   document.getElementById(child_id).classList.add('display-show');
+}
+// Array to hold points for each question.
+let points_per_q = [];
+let points_total = 0;
+
 // Run whenever a choose movie button is pressed to note the movie and makes sure to not conflict lists.
 function choose(button)
 {
