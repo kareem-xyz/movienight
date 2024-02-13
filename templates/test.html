@@ -2,34 +2,18 @@
 {% block body %}
 <div class="container text-start" id="questions">
     <h2>Questions</h2>
-    <!-- <div class='mb-4 q' id="q0"> For later on
-      <h5>1. How many people will be watching?</h5>
-      <input type="radio" class="btn-check" name="options-base" id="q0-option0" value="1">
-      <label class="m-2 btn btn-outline-light" for="q0-option0">One</label>
-      
-      <input type="radio" class="btn-check" name="options-base" id="q0-option1" value="2">
-      <label class="m-2 btn btn-outline-light" for="q0-option1">Two</label>
-      
-      <input type="radio" class="btn-check" name="options-base" id="q0-option2" value="3">
-      <label class="m-2 btn btn-outline-light" for="q0-option2">Three</label> -->
-
-      <!-- <input type="radio" class="btn-check" name="options-base" id="q0-option3" onclick="showInputField(this);" value="none">
-      <label class="m-2 btn btn-outline-light" for="q0-option3">More?</label>
-      <input type="number" class="btn btn-outline-light display-hide" min="1" id="q0-option3-input" onchange="">
-    </div> -->
-    <!-- Number of people should allow us to determine how many times we will give the quiz -->
-
-    <div class='mb-4 q' id="q1">
-      <h5>2. Does the movie have to be family friendly?</h5>
-      <input type="radio" class="btn-check" name="options-base1" id="q1-option0" value="true">
-      <label class="m-2 btn btn-outline-light" for="q1-option0">Yes</label>
-      
-      <input type="radio" class="btn-check" name="options-base1" id="q1-option1" value="false">
-      <label class="m-2 btn btn-outline-light" for="q1-option1">No</label>
+    <div class='mb-4 question' id="q0">
+        <h5>0. Does the movie have to be family friendly?</h5>
+        <input type="radio" class="btn-check q-option" name="options-base1" id="q0-option0" value="true" data-q-type="conditional" data-related-movie="">
+        <label class="m-2 btn btn-outline-light" for="q0-option0">Yes</label>
+        
+        <input type="radio" class="btn-check q-option" name="options-base1" id="q0-option1" value="false"data-related-movie="">
+        <label class="m-2 btn btn-outline-light" for="q0-option1">No</label>
     </div>
-
-    <button class="btn btn-outline-primary w-25">START QUIZ</button>
-
+    <div class="footer">
+        <button type="button" class="btn btn-outline-primary"><</button>
+        <button type="button" class="btn btn-primary">></button>
+    </div>
 <!-- --------------------------------------------------------------- --><br><br>
 <!-- For Vertical Radios -->
     <!-- <div class="btn-group-vertical" role="group" aria-label="Vertical radio toggle button group">
@@ -48,6 +32,88 @@
     </div> -->
 </div>
 {% endblock %}
+
 {% block scripts_body %}
 <script src="static/helpers.js"></script>
+<script>
+
+    const ANSWERS = {}
+    // Dict to hold inputed answers for each question. including true or false questions (conditionals), multiple choice questions and mnore. 
+    // Conditional questions will have a one value. eg if ANSWERS['q0']['type']='conditional' THEN ANSWERS['q0']['value'] = 'true' OR 'false'
+    // Multi select questions will have multiple values for each selected option. for example.
+    // if ANSWERS['q1']['type']='multiSelect' THEN :  ((for example question about similarmovies))
+    /* ANSWERS['q1']['value']= {
+     v0: {
+        'related_movie' : 'm0' or 'm1'   (((not sure yet if this will be needed in the points calculating stage or not)))
+        'value' : '1' or 2 or 3 idk
+      } 
+     v1: {...} 
+     }
+     */
+     // also might record questions typse separately on a object and call it questions. this might be useful for automating the proccess of showing the template and rendering it automatically instead of statically.
+     /* for example     
+     const QUESTIONS = {}
+     QUESTIONS['q0']: {
+        'type':multiSelect, 
+        'text': lorem ibsum'options',
+        'value': {
+            'o0': {
+                'text':'lorem ibsum...',
+                'value': '1'
+            }
+        }
+            'o0': {
+                'text':'lorem ibsum...',
+                'value': '1'
+            }
+    }
+     */
+    const totalQuestions = (document.getElementsByClassName('questions')).length // some work should be done in this to adjust number of questons accordingly. for example if both questions are for adults.
+    const POINTS = {
+        'm0': {},
+        'm1': {}
+    }
+    for (let i = 0; i < totalQuestions; i++)
+    {
+        POINTS['m0']['q${i}'] = {};
+        POINTS['m1']['q${i}'] = {};
+    }
+
+    const q_type_functions = 
+    {
+        'conditional' : saveAnswer_conditional(),
+        'multiSelect' : saveAnswer_multiSelect(),
+        'singleSelect' : saveAnswer_singleSelect()
+    }
+
+    // Configure Radio buttons in quiz to record answers
+    let radioButtons = document.querySelectorAll('.q-option');
+    radioButtons.forEach(button => function(button)
+    {
+    button.addEventListener('click', saveAnswer(button)); // Save answer
+    q_type_functions[button.getAttribute('data-q-type')];
+    });
+
+    
+  function saveAnswer(input)
+  {
+    let q_id = (input.id).slice(0,2)
+    ANSWERS[q_id] = input.value
+  };
+
+  // Ran from ANSWERS. cores points for each selected option. Should not add more points per multiple clicks. 
+  function saveAnswer_multiSelect(input)
+  {
+
+    let related_movie = input.getAttribute('data-related-movie')
+    let q_id = (input.id).slice(0,2)
+        POINTS[related_movie][q_id]
+  }
+
+  function saveAnswer_conditional(input)
+  {
+
+
+  }
+</script>
 {% endblock %}
