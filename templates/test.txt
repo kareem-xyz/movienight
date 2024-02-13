@@ -1,0 +1,41 @@
+test.txt
+using modals
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Question X</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-4 q" id="q0">
+          <h5>1. How many people will be watching?</h5>
+          <input type="radio" class="btn-check" name="options-base" id="q0-option0" value="1">
+          <label class="m-2 btn btn-outline-light" for="q0-option0">One</label>
+          
+          <input type="radio" class="btn-check" name="options-base" id="q0-option1" value="2">
+          <label class="m-2 btn btn-outline-light" for="q0-option1">Two</label>
+          
+          <input type="radio" class="btn-check" name="options-base" id="q0-option2" value="3">
+          <label class="m-2 btn btn-outline-light" for="q0-option2">Three</label>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary"><</button>
+        <button type="button" class="btn btn-outline-primary">></button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class='mb-4 q' id="q1">
+      <h5>2. Does the movie have to be family friendly?</h5>
+      <input type="radio" class="btn-check" name="options-base1" id="q1-option0" value="true">
+      <label class="m-2 btn btn-outline-light" for="q1-option0">Yes</label>
+      
+      <input type="radio" class="btn-check" name="options-base1" id="q1-option1" value="false">
+      <label class="m-2 btn btn-outline-light" for="q1-option1">No</label>
+    </div>
