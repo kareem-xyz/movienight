@@ -2,14 +2,6 @@
 
 {% block formSearch %}
 <div class="row m-auto w-50">
-    <!-- DEPRECATED FOR NOW -->
-    <!-- <div class="col-6">
-        <form action="/compare" method="post">
-        <input type="hidden" id="choice_0" name="id_0" value="null" />
-        <input type="hidden" id="choice_1" name="id_1" value="null" />
-        <button type="submit" class="btn btn-warning w-100"><span class="spinner-border spinner-border-sm load-status display-hide" aria-hidden="true"></span><strong>Compare</strong></button>
-        </form>
-    </div> -->
     <div class="col-12">
         <form onsubmit="return InputAndSubmit(event)" action="/fight" method="post">
             <!-- Form input is dynamically imported from sessionStorage, and added through JS  -->

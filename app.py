@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request, redirect 
 from concurrent.futures import ThreadPoolExecutor
 from helpers import * # import all helper function from helper.py
+import json
 
 # Configure Application
 app = Flask(__name__)
@@ -106,41 +107,9 @@ def fight():
     data_0 = get_all_movies_info(IDs_list=movies_IDs_0)
     data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
 
-    return render_template('questions.html', similarMovies0=data_0, similarMovies1=data_1)
-
-
-
-    
-
-
-
-
-# DEPRECATED FOR NOW
-"""
-@app.route('/compare', methods=['POST'])
-def compare():
-    choices = []
-    choices.append(request.form.get('id_0'))
-    choices.append(request.form.get('id_1'))
-
-    # Api requests
-    url = "https://moviesdatabase.p.rapidapi.com/titles/" # + /movie_id
-
-    # returns all information on the title
-    querystring = {"info":"custom_info"}
-
-    headers = {
-        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
-        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
-    }
-    #  Request data
-    response_0 = requests.get(url + choices[0], headers=headers, params=querystring)
-    response_1 = requests.get(url + choices[1], headers=headers, params=querystring)
-
-    # Convert to json for exchanging data
-    json_0 = response_0.json()
-    json_1 = response_1.json()
-
-    return render_template('compare.html', m0=json_0["results"], m1=json_1["results"])
-"""
+    # Pass the questions file too.
+    with open('tests/questions.json', 'r') as f:
+        questions_json = json.load(f)
+        
+    return render_template('questions.html', questions_json=questions_json, similarMovies0=data_0, similarMovies1=data_1)
 
