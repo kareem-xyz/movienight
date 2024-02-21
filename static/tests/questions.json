@@ -99,7 +99,7 @@
                 }
             },
                 "more-info": {}
-            },
+        },
         "q5": {
                 "type": "multiSelect",
                 "text": "Lets see about similar movies. Which of these did you watch and like?",

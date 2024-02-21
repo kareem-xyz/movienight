@@ -1,0 +1,12 @@
+nexttask.text
+
+# Nexttask
+/ continue writing the function to change between questions ( changeQuestion() ), using classes of display-hide and display-show
+/ start working on the answer saving system
+/ write the rendering of the multiSelect questions and their answers
+/work on the points calculation system 
+/ finish the 
+
+
+# finished
+/ Rendering of singleSelect questions and their respective answers

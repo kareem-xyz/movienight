@@ -1,6 +1,6 @@
 
 
-from flask import Flask, render_template, request, redirect 
+from flask import Flask, render_template, request, redirect
 from concurrent.futures import ThreadPoolExecutor
 from helpers import * # import all helper function from helper.py
 import json
@@ -15,7 +15,9 @@ executor = ThreadPoolExecutor()
 
 @app.route('/test')
 def test():
-    return render_template('test.html')
+    with open('static/tests/questions.json', 'r') as f:
+        questions_json = json.load(f)
+    return render_template('test.html', questions=questions_json['questions'])
 # Load index
 @app.route('/')
 def index():
@@ -111,5 +113,5 @@ def fight():
     with open('tests/questions.json', 'r') as f:
         questions_json = json.load(f)
         
-    return render_template('questions.html', questions_json=questions_json, similarMovies0=data_0, similarMovies1=data_1)
+    return render_template('questions.html', questions=questions_json, similarMovies0=data_0, similarMovies1=data_1)
 

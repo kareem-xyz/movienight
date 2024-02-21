@@ -1,25 +1,35 @@
 {% extends 'layout.html' %}
 {% block body %}
-<div class="container text-start" id="questions">
-    <h2>Questions</h2>
-    <div class='mb-4 question' id="q0">
-        <h5>0. Does the movie have to be family friendly?</h5>
-        <input type="radio" class="btn-check q-option" name="options-base1" id="q0-option0" value="true" data-q-type="conditional" data-related-movie="">
-        <label class="m-2 btn btn-outline-light" for="q0-option0">Yes</label>
-        <input type="radio" class="btn-check q-option" name="options-base1" id="q0-option1" value="false"data-related-movie="">
-        <label class="m-2 btn btn-outline-light" for="q0-option1">No</label>
+<button id='startQuizButton' type="button" class="btn btn-outline-light w-50" onclick="changeQuestion('start')">START QUIZ</button>
+<div class="container text-start">
+    <div class="container text-start" id="questions" style="display:none">
+        <h2>Questions</h2>
     </div>
     <div class="footer">
-        <button type="button" class="btn btn-outline-primary"><</button>
-        <button type="button" class="btn btn-primary">></button>
+        <button type="button" class="btn btn-outline-primary" style="visibility:hidden"id="previousQuestionButton" onclick="changeQuestion('previous')">&lt;</button>
+        <button type="button" class="btn btn-outline-primary" style="visibility:hidden" id="nextQuestionButton" onclick="changeQuestion('next')">&gt;</button>
     </div>
+    
 <!-------------------------------------------------------------------><br><br>
-
 </div>
+<button type="button" class="btn btn-primary" style="display:none" id="finishQuizButton" onclick="finishQuiz()">FINISH QUIZ</button>
 {% endblock %}
 
 {% block scripts_body %}
 <script src="static/helpers.js"></script>
-<script src="tests/q.html_main.js"></script>
-<script src="tests/questions_helpers.js"></script>
+
+<script>
+    const QUESTIONS = JSON.parse('{{questions | tojson | safe}}');
+    // After page load
+    document.addEventListener("DOMContentLoaded", function (){
+        // Render questions
+        let totalQuestions = 0
+        for (let q in QUESTIONS)
+        {
+            renderQuestion(q);
+        }
+      }); 
+</script>
+<script src="static/tests/questions_helpers.js"></script>
+<script src="static/tests/q.html_main.js"></script>
 {% endblock %}
