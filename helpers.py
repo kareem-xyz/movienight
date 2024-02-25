@@ -8,8 +8,6 @@ headers = {
         "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
     }
 
-# HELPER FUNCTIONS
-# -----------------
 def run_async(func):
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)

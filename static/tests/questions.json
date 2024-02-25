@@ -10,10 +10,12 @@
                 "type":"text",
                 "keys":{
                     "o0": {
+                        "id": "o0",
                         "text": "No",
                         "value": "1"
                     },
                     "o1": {
+                        "id": "o1",
                         "text": "Yes",
                         "value": "1"
                     }
@@ -33,14 +35,17 @@
                 "type": "text",
                 "keys": {
                     "o0": {
+                        "id": "o0",
                         "text": "Yeah, 1 hour max",
                         "value": "1"
                     },
                     "o1": {
+                        "id": "o1",
                         "text": "Not really, but 2 hours is okay",
                         "value": "1"
                     },
                     "o2": {
+                        "id": "o2",
                         "text": "No, We have all the time.",
                         "value": "1"
                     }
@@ -54,7 +59,29 @@
             "related_key": "genres",
             "options": {
                 "type": "text",
-                "keys":{}
+                "max": "3",
+                "keys":{
+                    "o0": {
+                        "id": "o0",
+                        "text": "Comedy",
+                        "value": "1"
+                    },
+                    "o1": {
+                        "id": "o1",
+                        "text": "Action",
+                        "value": "1"
+                    },
+                    "o2": {
+                        "id": "o2",
+                        "text": "Drama",
+                        "value": "1"
+                    },
+                    "o3": {
+                        "id": "o3",
+                        "text": "Sci-fi",
+                        "value": "1"
+                    }
+                }
             },
             "more-info": {}
         },
@@ -66,10 +93,12 @@
                 "type": "text",
                 "keys": {
                     "o0": {
+                        "id": "o0",
                         "text": "No",
                         "value": "1"
                     },
                     "o1": {
+                        "id": "o1",
                         "text": "Yes",
                         "value": "1"
                     }
@@ -89,10 +118,12 @@
                 "type": "text",
                 "keys": {
                     "o0": {
+                        "id": "o0",
                         "text": "No",
                         "value": "1"
                     },
                     "o1": {
+                        "id": "o1",
                         "text": "Yes",
                         "value": "1"
                     }

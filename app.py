@@ -110,7 +110,7 @@ def fight():
     data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
 
     # Pass the questions file too.
-    with open('tests/questions.json', 'r') as f:
+    with open('static/tests/questions.json', 'r') as f:
         questions_json = json.load(f)
         
     return render_template('questions.html', questions=questions_json, similarMovies0=data_0, similarMovies1=data_1)

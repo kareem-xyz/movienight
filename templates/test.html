@@ -1,18 +1,20 @@
 {% extends 'layout.html' %}
 {% block body %}
+
 <button id='startQuizButton' type="button" class="btn btn-outline-light w-50" onclick="changeQuestion('start')">START QUIZ</button>
-<div class="container text-start">
-    <div class="container text-start" id="questions" style="display:none">
+<div class="container text-start blurry" id='quiz-container' style="display:none">
+    <div class="container text-start" id="questions" style="display:none;">
         <h2>Questions</h2>
     </div>
     <div class="footer">
         <button type="button" class="btn btn-outline-primary" style="visibility:hidden"id="previousQuestionButton" onclick="changeQuestion('previous')">&lt;</button>
         <button type="button" class="btn btn-outline-primary" style="visibility:hidden" id="nextQuestionButton" onclick="changeQuestion('next')">&gt;</button>
     </div>
-    
+
 <!-------------------------------------------------------------------><br><br>
 </div>
 <button type="button" class="btn btn-primary" style="display:none" id="finishQuizButton" onclick="finishQuiz()">FINISH QUIZ</button>
+
 {% endblock %}
 
 {% block scripts_body %}
@@ -23,13 +25,20 @@
     // After page load
     document.addEventListener("DOMContentLoaded", function (){
         // Render questions
-        let totalQuestions = 0
         for (let q in QUESTIONS)
         {
             renderQuestion(q);
         }
-      }); 
+        // Configure Radio buttons in quiz to record answers
+        let radioButtons = document.querySelectorAll('.q-option');
+        radioButtons.forEach(button =>
+        {
+            button.addEventListener('click', ()=> saveAnswer(button))
+            // button id is configured as id='${q_id}-option${a_no}'
+        });
+      });
+
 </script>
 <script src="static/tests/questions_helpers.js"></script>
-<script src="static/tests/q.html_main.js"></script>
+<script src="static/tests/questions_main.js"></script>
 {% endblock %}
