@@ -136,14 +136,14 @@
                 "text": "Lets see about similar movies. Which of these did you watch and like?",
                 "related_key": "similarMovies",
                 "options": {
-                    "type": "text",
+                    "type": "image",
                     "keys": {}
                 },
                 "more-info":
                 {
                     "type": "text",
                     "text": "More info?",
-                    "description" : "This movies are gathered from the director, writers, and  principal cast of the chosen movies."
+                    "description" : "This movies are gathered from the director, writers, and principal cast of the chosen movies."
                 } 
         }
     }

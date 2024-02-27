@@ -32,19 +32,48 @@ const q_type_functions =
     'singleSelect' : saveAnswer_singleSelect()
 }
 
+function fillQuestionsJSON(){
+    // Read data
+    simMovies_q = 'q5'
+    m0_simMovies = JSON.parse(sessionStorage.getItem('choice_0'))['similarMovies']
+    m1_simMovies = JSON.parse(sessionStorage.getItem('choice_1'))['similarMovies']
+    length_AllSimMovies= m0_simMovies.length + m1_simMovies.length;
+    max_options = length_AllSimMovies <= 6 ? length_AllSimMovies : 6;
+    QUESTIONS[simMovies_q]['options']['max'] = max_options
+
+    // add to QUESTIONS
+    function addSimMoviesToQuestions(movie_no_str, simMoviesList)
+    {
+        let simMovies_q = 'q5';
+        key_index = Object.keys(QUESTIONS?.[simMovies_q]?.['options']?.['keys']).length !== undefined ? Object.keys(QUESTIONS[simMovies_q]['options']['keys']).length : 0;//to determine where to push key
+        for (i in simMoviesList){
+        let key = {}
+        key['id'] = `o${key_index}`;
+        key['text'] = simMoviesList[i]?.['titleText']?.['text'];
+        key['image'] = simMoviesList[i]?.['primaryImage']?.['url'];
+        key['relatedMovie'] = `m${movie_no_str}`;
+        key['value'] = 1;
+        QUESTIONS[simMovies_q]['options']['keys'][`o${key_index}`] = key;
+        key_index++;
+        }
+    }
+    addSimMoviesToQuestions('0', m0_simMovies);
+    addSimMoviesToQuestions('1', m1_simMovies);
+}
+
 // Renders each question to the html file, based on the type of the question and its options.
 function renderQuestion(q_id)
 {
     // Render the Question Div
     let question = document.createElement('div');
-    question.classList.add('mb-4', 'question', 'display-hide')
+    question.classList.add('mb-4', 'question', 'display-hide', 'position-relative')
     question.id = q_id
     let q_object = QUESTIONS[q_id]
     let q_no = Number(q_id.charAt(1)); // Convert to int
     let q_text = q_object['text'];
 
     // Render Question text
-    let text_html = `<h5 class='animated-text'>${q_no}. ${q_text}</h5>`;
+    let text_html = `<h5 class='animated-text'>${q_no}. ${q_text}</h5>`
     question.innerHTML = text_html;
 
     // Render Question Answer Keys
@@ -101,6 +130,10 @@ function GenerateAnswersHTML(q_id)
         default:
             keys_html = `PENDING DEVELOPMENT: /n Question ID: ${q_id} /n of type ${q_object['type']} /n Answers of type: ${q_object['options']['type']}`
     }
+    // Add extra info section to answers
+    let info_text = q_object?.['more-info']?.['text']
+    let info_desc = q_object?.['more-info']?.['description'] 
+    keys_html += `<button type="button" class="btn btn-outline-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="${info_desc}">${info_text}</button>`
     return keys_html
 }
 

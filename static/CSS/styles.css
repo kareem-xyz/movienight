@@ -8,7 +8,7 @@ body
     margin-top: 2%;
     height:100%;
     text-align: center;
-    background-image: url('background.png');
+    background-image: url('../assets/background.png');
     background-size: cover;
     align-content: center;
 }

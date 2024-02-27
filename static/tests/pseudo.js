@@ -25,4 +25,13 @@
     <label class="m-2 btn btn-outline-light" for="q0-option1">No</label>
 </div> -->
 
+
+can Use optional chaining and the ternary operator for safely indexing into and returning a default value like this
+const obj = { nested: { prop: 'value' } };
+
+// Using optional chaining with the ternary operator
+const result = obj?.nested?.prop !== undefined ? obj.nested.prop : 'default value';
+
+console.log(result); // Output: 'value'
+
  */

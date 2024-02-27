@@ -46,19 +46,17 @@ def search():
     # Format Movies for sending (jsonifying and sorting)
     if data_0:
         data_0 = sorted(data_0, key=lambda x : (x['primaryImage'] is not None, x['ratingsSummary']['voteCount']), reverse=True)
-        for i in range(len(data_0)) :
-            try:
-                data_0[i]['plot']['plotText']['plainText'] = data_0[i]['plot']['plotText']['plainText'].replace('"', "'")
-            except TypeError:
-                continue
+        data_0 = replace_quotes(data_0)
+        # DEPRECATED OLD CODE FOR CLEANSING JSON
+        # for i in range(len(data_0)) :
+        #     try:
+        #         data_0[i]['plot']['plotText']['plainText'] = data_0[i]['plot']['plotText']['plainText'].replace('"', "'")
+        #     except TypeError:
+        #         continue
 
     if data_1:
         data_1 = sorted(data_1, key=lambda x : (x['primaryImage'] is not None, x['ratingsSummary']['voteCount']), reverse=True)
-        for i in range(len(data_1)) :
-            try:
-                data_1[i]['plot']['plotText']['plainText'] = data_1[i]['plot']['plotText']['plainText'].replace('"', "'")
-            except TypeError:
-                continue
+        data_1 = replace_quotes(data_1)
             
     return render_template('search.html', datalist_0=data_0, datalist_1=data_1)
 
@@ -102,16 +100,25 @@ def fight():
             print(e)
             continue
 
-    # Remove duplicates from list (works by converting to dict and back to list)
+    # Remove duplicates from  each list (works by converting to dict and back to list)
     movies_IDs_0 = list(dict.fromkeys(movies_IDs_0))
     movies_IDs_1 = list(dict.fromkeys(movies_IDs_1))
 
+    # Remove overlapping movies from lists (I dont want to ask about a movie if it will add points to both movies)
+    movies_IDs_0 = remove_overlap(movies_IDs_0, movies_IDs_1)
+    movies_IDs_1 = remove_overlap(movies_IDs_1, movies_IDs_0)
+
+    # Run API for  Movies Data
     data_0 = get_all_movies_info(IDs_list=movies_IDs_0)
     data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
+    
+    # Format JSON correctly.
+    data_0 = replace_quotes(data_0) 
+    data_1 = replace_quotes(data_1) 
 
     # Pass the questions file too.
-    with open('static/tests/questions.json', 'r') as f:
+    with open('static/assets/questions.json', 'r') as f:
         questions_json = json.load(f)
         
-    return render_template('questions.html', questions=questions_json, similarMovies0=data_0, similarMovies1=data_1)
+    return render_template('fight.html', questions=questions_json['questions'], m0_similarMovies=data_0, m1_similarMovies=data_1)
 
