@@ -21,7 +21,7 @@
                 "run"
             ],
             "jinja": true,
-            "justMyCode": true
+            "justMyCode": false
         },
         {
             "name": "Python: Flask",
@@ -38,7 +38,7 @@
             ],
             "envFile": "${workspaceFolder}/.env",
             "jinja": true,
-            "justMyCode": true
+            "justMyCode": false
         }
     ]
 }

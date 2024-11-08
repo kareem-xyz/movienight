@@ -2,13 +2,12 @@
 var highlighted = [2]; // for css highlighting, stores button
 const col_0 = document.getElementById("col_0");   // References html element of list 0
 const col_1 = document.getElementById("col_1");   // References html element of list 1
-
-// Initialise Arrays
-for (let i = 0; i < 2; i++)
+for (let i = 0; i < 2; i++) // Initialise Arrays
 {
-    highlighted[i] = ""
+    highlighted[i] = "";
 }
-
+let points_per_q = []; // Array to hold points for each question.
+let points_total = 0;
 
 function showInputField(label)
 {
@@ -16,9 +15,6 @@ function showInputField(label)
    child_id = label.id + '-input';
    document.getElementById(child_id).classList.add('display-show');
 }
-// Array to hold points for each question.
-let points_per_q = [];
-let points_total = 0;
 
 // Run whenever a choose movie button is pressed to note the movie and makes sure to not conflict lists.
 function choose(button)

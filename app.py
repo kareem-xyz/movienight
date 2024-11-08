@@ -1,26 +1,33 @@
-
-
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_session import Session
 from concurrent.futures import ThreadPoolExecutor
+from datetime import timedelta
 from helpers import * # import all helper function from helper.py
 import json
+from itsdangerous import URLSafeTimedSerializer
 
 # Configure Application
 app = Flask(__name__)
-
-# Ensure templates are auto-reloaded
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-
 executor = ThreadPoolExecutor()
+
+# Set the secret key for session
+app.secret_key = '_5#y2LF4Qsbfiqbf2768er4vef6acg7egt7b9rgv634vbt7fgve'
+app.config['SESSION_TYPE'] = 'filesystem' # use filesystem storage (server storage)
+app.config['SESSION_PERMANENT'] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True # Ensure templates are auto-reloaded
+Session(app) 
+
 
 @app.route('/test')
 def test():
-    with open('static/tests/questions.json', 'r') as f:
+    with open('static/assets/questions.json', 'r') as f:
         questions_json = json.load(f)
     return render_template('test.html', questions=questions_json['questions'])
+
 # Load index
 @app.route('/')
 def index():
+    session.clear()
     return render_template('layout.html')
     
 @app.route('/search')
@@ -47,12 +54,6 @@ def search():
     if data_0:
         data_0 = sorted(data_0, key=lambda x : (x['primaryImage'] is not None, x['ratingsSummary']['voteCount']), reverse=True)
         data_0 = replace_quotes(data_0)
-        # DEPRECATED OLD CODE FOR CLEANSING JSON
-        # for i in range(len(data_0)) :
-        #     try:
-        #         data_0[i]['plot']['plotText']['plainText'] = data_0[i]['plot']['plotText']['plainText'].replace('"', "'")
-        #     except TypeError:
-        #         continue
 
     if data_1:
         data_1 = sorted(data_1, key=lambda x : (x['primaryImage'] is not None, x['ratingsSummary']['voteCount']), reverse=True)
@@ -60,9 +61,9 @@ def search():
             
     return render_template('search.html', datalist_0=data_0, datalist_1=data_1)
 
-@app.route("/fight", methods=['POST', 'GET'])
+@app.route("/fight", methods=['POST'])
 def fight():
-     # Get list of IDs for director, creators, writers, and cast of each movie
+    # Get list of IDs for director, creators, writers, and cast of each movie
     cast_0 = request.form.get('cast_0')
     cast_1 = request.form.get('cast_1')
 
@@ -116,9 +117,27 @@ def fight():
     data_0 = replace_quotes(data_0) 
     data_1 = replace_quotes(data_1) 
 
+    # session used to access data across different flask routes without using URL parameters (big files dont work well with URLs)
+    session['m0_similarMovies'] = data_0 
+    session['m1_similarMovies'] = data_1
+        
+    # return render_template('fight.html', questions=questions_json['questions'], m0_similarMovies=data_0, m1_similarMovies=data_1)
+    # Now rendering via a different route to simplify GET requests and refreshes.
+    return redirect(url_for('result'))
+
+@app.route('/result', methods=['GET'])
+def result():
     # Pass the questions file too.
     with open('static/assets/questions.json', 'r') as f:
         questions_json = json.load(f)
-        
-    return render_template('fight.html', questions=questions_json['questions'], m0_similarMovies=data_0, m1_similarMovies=data_1)
+    q =  questions_json['questions']
+    s0 = session.get('m0_similarMovies')
+    s1 = session.get('m1_similarMovies')
 
+    # if session data cleared go to homepage
+    if (not s0 or not s1):
+        if not (s0 and s1):
+            return redirect('index')
+        return render_template('bug.html', bug='Did not find list of similar movies for one of the movies, OR movie data is cleared')
+    
+    return render_template('fight.html', questions=q, m0_similarMovies=s0, m1_similarMovies=s1)

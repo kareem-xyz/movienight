@@ -21,7 +21,7 @@ def get_movie_info(title, params):
     base_url='https://moviesdatabase.p.rapidapi.com/titles/search/title/'
     response = requests.get(base_url + title, headers=headers, params=params)
     # Convert to json and return only the results
-    return response.json()['results']
+    return (response.json())['results']
 
 
 # Data for list of Movies. Takes list of cast IDs.

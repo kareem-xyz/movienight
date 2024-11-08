@@ -66,7 +66,7 @@ function renderQuestion(q_id)
 {
     // Render the Question Div
     let question = document.createElement('div');
-    question.classList.add('mb-4', 'question', 'display-hide', 'position-relative')
+    question.classList.add('mb-4', 'question', 'display-hide', 'position-relative', 'w-100')
     question.id = q_id
     let q_object = QUESTIONS[q_id]
     let q_no = Number(q_id.charAt(1)); // Convert to int
@@ -76,8 +76,18 @@ function renderQuestion(q_id)
     let text_html = `<h5 class='animated-text'>${q_no}. ${q_text}</h5>`
     question.innerHTML = text_html;
 
+    // Generate (More info) button:
+    // UNFINISHED -----------------
+    // Add extra info section to answers
+    /*
+     let info_text = q_object?.['more-info']?.['text']
+    let info_desc = q_object?.['more-info']?.['description'] 
+    question.insertAdjacentHTML('beforeend',`<button type="button" class="btn btn-outline-secondary position-absolute bottom-50 end-0" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="${info_desc}">${info_text}</button>`)
+    */
+
     // Render Question Answer Keys
     answers_html = GenerateAnswersHTML(q_id);
+    let type = typeof answers_html;
     question.insertAdjacentHTML('beforeend', `<div class='animated-text'>${answers_html}</div`);
 
     // Add Question to Webpage
@@ -124,16 +134,36 @@ function GenerateAnswersHTML(q_id)
 
             else if (q_object['options']['type'] === 'image')
             {
-                // how to display answers to images
+                let container = document.createElement('div');
+                container.classList.add('container')
+                let row = document.createElement('div')
+                row.classList.add('row');
+                for (let k in q_keys){
+                    let key = q_keys[k];
+                    let m_div = document.createElement('div');
+                    m_div.classList.add('col-md-4') ;
+                    let m_anchor = document.createElement('a');
+                    m_anchor.classList.add('movie-poster')
+                    m_anchor.setAttribute('href', '#');
+                    let img = document.createElement('img')
+                    img.src = 'https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg'
+                    img.alt = 'noImage'
+                    let title = document.createElement('div')
+                    title.classList.add('movie-title')
+                    title.innerHTML='MOVIE TITLE'
+
+                    m_anchor.appendChild(img)
+                    m_anchor.appendChild(title)
+                    m_div.appendChild(m_anchor)
+                    row.appendChild(m_div)
+                }
+                container.appendChild(row)
+                return;
             }
         
         default:
             keys_html = `PENDING DEVELOPMENT: /n Question ID: ${q_id} /n of type ${q_object['type']} /n Answers of type: ${q_object['options']['type']}`
     }
-    // Add extra info section to answers
-    let info_text = q_object?.['more-info']?.['text']
-    let info_desc = q_object?.['more-info']?.['description'] 
-    keys_html += `<button type="button" class="btn btn-outline-secondary" data-bs-container="body" data-bs-toggle="popover" data-bs-placement="right" data-bs-content="${info_desc}">${info_text}</button>`
     return keys_html
 }
 

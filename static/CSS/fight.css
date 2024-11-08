@@ -1,0 +1,13 @@
+
+.movie-poster {
+  margin-bottom: 20px;
+}
+.movie-poster img {
+  max-width: 100%; /* Set maximum width to fit container */
+  height: auto; /* Maintain aspect ratio */
+  max-height: 200px; /* Set maximum height */
+}
+.movie-title {
+  margin-top: 10px;
+  font-weight: bold;
+}
