@@ -2,14 +2,6 @@
 
 {% block formSearch %}
 <div class="row m-auto w-50">
-    <!-- DEPRECATED FOR NOW -->
-    <!-- <div class="col-6">
-        <form action="/compare" method="post">
-        <input type="hidden" id="choice_0" name="id_0" value="null" />
-        <input type="hidden" id="choice_1" name="id_1" value="null" />
-        <button type="submit" class="btn btn-warning w-100"><span class="spinner-border spinner-border-sm load-status display-hide" aria-hidden="true"></span><strong>Compare</strong></button>
-        </form>
-    </div> -->
     <div class="col-12">
         <form onsubmit="return InputAndSubmit(event)" action="/fight" method="post">
             <!-- Form input is dynamically imported from sessionStorage, and added through JS  -->
@@ -24,7 +16,7 @@
     {% for movie in datalist_0 %}
     <div class ="row bg-dark mb-4 p-0">
         <div class="col ratio ratio-1x1">
-            <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start " onerror="this.onerror=null; this.src='static/noimage.jpg'">
+            <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start " onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
         </div>
         <div class="col text-start p-4">
             <h6>{{movie["titleText"]["text"] }} ({{movie["releaseYear"]["year"]}})</h6>
@@ -64,7 +56,7 @@
     {% for movie in datalist_1 %}
         <div class ="row bg-dark mb-4 p-0">
             <div class="col ratio ratio-1x1">
-                <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start" onerror="this.onerror=null; this.src='static/noimage.jpg'">
+                <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start" onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
             </div>
             <div class="col text-start p-4">
                 <h6>{{ movie['titleText']['text'] }} ({{movie["releaseYear"]["year"]}})</h6>
@@ -103,5 +95,5 @@
     const datalist_0 = JSON.parse('{{datalist_0 | tojson | safe}}');
     const datalist_1 = JSON.parse('{{datalist_1 | tojson | safe}}');
 </script>
-<script src="static/helpers.js"></script>
+<script src="static/JS/helpers.js"></script>
 {% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<button id='startQuizButton' type="button" class="btn btn-outline-light w-50" onclick="changeQuestion('start')">START QUIZ</button>
+<div class="container text-start blurry" id='quiz-container' style="display:none">
+    <div class="container text-start" id="questions" style="display:none;">
+        <h2>Questions</h2>
+    </div>
+    <div class="footer">
+        <button type="button" class="btn btn-outline-primary" style="visibility:hidden"id="previousQuestionButton" onclick="changeQuestion('previous')">&lt;</button>
+        <button type="button" class="btn btn-outline-primary" style="visibility:hidden" id="nextQuestionButton" onclick="changeQuestion('next')">&gt;</button>
+    </div>
+
+<!-------------------------------------------------------------------><br><br>
+</div>
+<button type="button" class="btn btn-primary" style="display:none" id="finishQuizButton" onclick="finishQuiz()">FINISH QUIZ</button>
+
+{% endblock %}
+
+{% block scripts_body %}
+<script src="static/JS/helpers.js"></script>
+
+<script>
+    // Save passed jinja variables to local JS
+    const QUESTIONS = JSON.parse('{{questions | tojson | safe}}');
+    let m0_data = JSON.parse(sessionStorage.getItem('choice_0'));
+    let m1_data = JSON.parse(sessionStorage.getItem('choice_1'));
+
+    m0_data['similarMovies'] = JSON.parse('{{m0_similarMovies | tojson | safe}}');
+    m1_data['similarMovies'] = JSON.parse('{{m1_similarMovies | tojson | safe}}');
+
+    sessionStorage.setItem('choice_0', JSON.stringify(m0_data));
+    sessionStorage.setItem('choice_1', JSON.stringify(m1_data));
+
+    // After page load
+    document.addEventListener("DOMContentLoaded", function (){
+        // Render questions
+        for (let q in QUESTIONS)
+        {
+            renderQuestion(q);
+        }
+        // Configure Radio buttons in quiz to record answers
+        let radioButtons = document.querySelectorAll('.q-option');
+        radioButtons.forEach(button =>
+        {
+            button.addEventListener('click', ()=> saveAnswer(button))
+            // button id is configured as id='${q_id}-option${a_no}'
+        });
+        fillQuestionsJSON()
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+      });
+
+
+</script>
+<script src="static/JS/fight_helpers.js"></script>
+<script src="static/JS/fight_main.js"></script>
+{% endblock %}

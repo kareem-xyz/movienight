@@ -1,18 +1,33 @@
-from os import error
-from flask import Flask, render_template, request, redirect 
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_session import Session
+from concurrent.futures import ThreadPoolExecutor
+from datetime import timedelta
+from helpers import * # import all helper function from helper.py
 import json
-import requests # Used in the query Api
-from operator import itemgetter # used for sorting of responses from api
+from itsdangerous import URLSafeTimedSerializer
 
 # Configure Application
 app = Flask(__name__)
+executor = ThreadPoolExecutor()
 
-# Ensure templates are auto-reloaded
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+# Set the secret key for session
+app.secret_key = '_5#y2LF4Qsbfiqbf2768er4vef6acg7egt7b9rgv634vbt7fgve'
+app.config['SESSION_TYPE'] = 'filesystem' # use filesystem storage (server storage)
+app.config['SESSION_PERMANENT'] = False
+app.config["TEMPLATES_AUTO_RELOAD"] = True # Ensure templates are auto-reloaded
+Session(app) 
+
+
+@app.route('/test')
+def test():
+    with open('static/assets/questions.json', 'r') as f:
+        questions_json = json.load(f)
+    return render_template('test.html', questions=questions_json['questions'])
 
 # Load index
 @app.route('/')
 def index():
+    session.clear()
     return render_template('layout.html')
     
 @app.route('/search')
@@ -28,82 +43,101 @@ def search():
     # Movie Databases Api to get Movie's Data.
     # https://rapidapi.com/SAdrian/api/moviesdatabase/
 
-    # Format Api Urls for each movie inputed
-    url_0 = "https://moviesdatabase.p.rapidapi.com/titles/search/title/" + input_0
-    url_1 = "https://moviesdatabase.p.rapidapi.com/titles/search/title/" + input_1
-
     # Api Specifics (login key and query parameters)
     querystring = {"exact":"false","titleType":"movie", "info":"custom_info"}
-    headers = {
-        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
-        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
-    }
 
     # Run Api
-    response_0 = requests.get(url_0, headers=headers, params=querystring)
-    response_1 = requests.get(url_1, headers=headers, params=querystring)
-
-    # Convert response to json format to exchange with JS
-    json_0 = response_0.json()
-    json_1 = response_1.json()
-
-    # Take the useful data only
-    data_0 = json_0['results']
-    data_1 = json_1['results']
+    data_0 = get_movie_info(title=input_0, params=querystring)
+    data_1 = get_movie_info(title=input_1, params=querystring)
 
     # Format Movies for sending (jsonifying and sorting)
     if data_0:
         data_0 = sorted(data_0, key=lambda x : (x['primaryImage'] is not None, x['ratingsSummary']['voteCount']), reverse=True)
-        for i in range(len(data_0)) :
-            try:
-                data_0[i]['plot']['plotText']['plainText'] = data_0[i]['plot']['plotText']['plainText'].replace('"', "'")
-            except TypeError as t:
-                print(i)
-                print(t)
-                continue
+        data_0 = replace_quotes(data_0)
 
     if data_1:
         data_1 = sorted(data_1, key=lambda x : (x['primaryImage'] is not None, x['ratingsSummary']['voteCount']), reverse=True)
-        for i in range(len(data_1)) :
-            try:
-                data_1[i]['plot']['plotText']['plainText'] = data_1[i]['plot']['plotText']['plainText'].replace('"', "'")
-            except TypeError as t:
-                print(i)
-                print(t)
-                continue
+        data_1 = replace_quotes(data_1)
             
     return render_template('search.html', datalist_0=data_0, datalist_1=data_1)
 
-# DEPRECATED FOR NOW
-"""
-@app.route('/compare', methods=['POST'])
-def compare():
-    choices = []
-    choices.append(request.form.get('id_0'))
-    choices.append(request.form.get('id_1'))
-
-    # Api requests
-    url = "https://moviesdatabase.p.rapidapi.com/titles/" # + /movie_id
-
-    # returns all information on the title
-    querystring = {"info":"custom_info"}
-
-    headers = {
-        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
-        "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
-    }
-    #  Request data
-    response_0 = requests.get(url + choices[0], headers=headers, params=querystring)
-    response_1 = requests.get(url + choices[1], headers=headers, params=querystring)
-
-    # Convert to json for exchanging data
-    json_0 = response_0.json()
-    json_1 = response_1.json()
-
-    return render_template('compare.html', m0=json_0["results"], m1=json_1["results"])
-"""
-
-@app.route("/fight", methods=['POST', 'GET'])
+@app.route("/fight", methods=['POST'])
 def fight():
-    # Receive 2 Arrays each containing strings for actors IDs and run api requests asynchronously for each one sending the data to the endpoint actors/id to get similar movies for each one, append each to array and return back to render questions.html
-    return render_template('questions.html')
+    # Get list of IDs for director, creators, writers, and cast of each movie
+    cast_0 = request.form.get('cast_0')
+    cast_1 = request.form.get('cast_1')
+
+    # Check for invalid input
+    if not (cast_0 and cast_1):
+        return render_template('bug.html', bug='Did not receive cast list for both movies. ERROR 100')
+    try :
+        # Since values are a single line of csv strings. We can just split.
+        cast_0 = cast_0.split(',')
+        cast_1 = cast_1.split(',')
+    except Exception as e:
+        return render_template('bug.html', bug=f'Some error with data: {str(e)}')
+
+    # Run API to Get ACTORS data Use asyncio to run the asynchronous function for both lists concurrently
+    try:
+        list_0, list_1 = run_async(get_all_actors_info(cast_0)), run_async(get_all_actors_info(cast_1))
+    except Exception as e:
+        return render_template('bug.html', bug=f'Error fetching actor info: {str(e)}')
+    
+    # Run API to Get Movies of Actors
+    movies_IDs_0 = []
+    movies_IDs_1 = []
+    for index, actor in enumerate(list_0):
+        try:
+            movies_IDs_0 += (actor['results']['knownForTitles']).split(',')
+        except Exception as e:
+            print(f'Error at index {index}')
+            print(e)
+            continue
+    for index, actor in enumerate(list_1):
+        try:
+            movies_IDs_1 += (actor['results']['knownForTitles']).split(',')
+        except Exception as e:
+            print(f'Error at index {index}')
+            print(e)
+            continue
+
+    # Remove duplicates from  each list (works by converting to dict and back to list)
+    movies_IDs_0 = list(dict.fromkeys(movies_IDs_0))
+    movies_IDs_1 = list(dict.fromkeys(movies_IDs_1))
+
+    # Remove overlapping movies from lists (I dont want to ask about a movie if it will add points to both movies)
+    movies_IDs_0 = remove_overlap(movies_IDs_0, movies_IDs_1)
+    movies_IDs_1 = remove_overlap(movies_IDs_1, movies_IDs_0)
+
+    # Run API for  Movies Data
+    data_0 = get_all_movies_info(IDs_list=movies_IDs_0)
+    data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
+    
+    # Format JSON correctly.
+    data_0 = replace_quotes(data_0) 
+    data_1 = replace_quotes(data_1) 
+
+    # session used to access data across different flask routes without using URL parameters (big files dont work well with URLs)
+    session['m0_similarMovies'] = data_0 
+    session['m1_similarMovies'] = data_1
+        
+    # return render_template('fight.html', questions=questions_json['questions'], m0_similarMovies=data_0, m1_similarMovies=data_1)
+    # Now rendering via a different route to simplify GET requests and refreshes.
+    return redirect(url_for('result'))
+
+@app.route('/result', methods=['GET'])
+def result():
+    # Pass the questions file too.
+    with open('static/assets/questions.json', 'r') as f:
+        questions_json = json.load(f)
+    q =  questions_json['questions']
+    s0 = session.get('m0_similarMovies')
+    s1 = session.get('m1_similarMovies')
+
+    # if session data cleared go to homepage
+    if (not s0 or not s1):
+        if not (s0 and s1):
+            return redirect('index')
+        return render_template('bug.html', bug='Did not find list of similar movies for one of the movies, OR movie data is cleared')
+    
+    return render_template('fight.html', questions=q, m0_similarMovies=s0, m1_similarMovies=s1)

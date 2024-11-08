@@ -2,11 +2,18 @@
 var highlighted = [2]; // for css highlighting, stores button
 const col_0 = document.getElementById("col_0");   // References html element of list 0
 const col_1 = document.getElementById("col_1");   // References html element of list 1
-
-// Initialise Arrays
-for (let i = 0; i < 2; i++)
+for (let i = 0; i < 2; i++) // Initialise Arrays
 {
-    highlighted[i] = ""
+    highlighted[i] = "";
+}
+let points_per_q = []; // Array to hold points for each question.
+let points_total = 0;
+
+function showInputField(label)
+{
+   // Show child element
+   child_id = label.id + '-input';
+   document.getElementById(child_id).classList.add('display-show');
 }
 
 // Run whenever a choose movie button is pressed to note the movie and makes sure to not conflict lists.
@@ -74,7 +81,11 @@ function InputAndSubmit(event) {
         return false;
     }
 
-    // Append the hidden input field to the form
+    // Remove existing hidden inputs with the same names
+    event.target.querySelectorAll('input[name="cast_0"]').forEach(el => el.remove());
+    event.target.querySelectorAll('input[name="cast_1"]').forEach(el => el.remove());
+
+    // Append the new hidden input field to the form
     event.target.appendChild(hiddenInput_0);
     event.target.appendChild(hiddenInput_1);
 
@@ -104,11 +115,11 @@ function getMovieCast(movie) {
     let cast = [];
 
     // Add values from movie data
-    cast.push(movie?.['directors'][0]?.['credits']?.[0]?.['name']?.['id'])
-    cast.push(movie?.['creators'][0]?.['credits']?.[0]?.['name']?.['id'])
-    cast.push(movie?.['writers'][0]?.['credits']?.[0]?.['name']?.['id'])
+    cast.push(movie?.['directors']?.[0]?.['credits']?.[0]?.['name']?.['id'])
+    cast.push(movie?.['creators']?.[0]?.['credits']?.[0]?.['name']?.['id'])
+    cast.push(movie?.['writers']?.[0]?.['credits']?.[0]?.['name']?.['id'])
 
-    let tmp = movie?.['principalCast'][0]?.['credits'];
+    let tmp = movie?.['principalCast']?.[0]?.['credits'];
     if (tmp)
     {
         for (let i = 0; i < tmp.length; i++)

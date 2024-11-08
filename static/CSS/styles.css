@@ -1,0 +1,80 @@
+
+
+html{
+    height: 100%;
+}
+body 
+{
+    margin-top: 2%;
+    height:100%;
+    text-align: center;
+    background-image: url('../assets/background.png');
+    background-size: cover;
+    align-content: center;
+}
+ #movienight
+{
+
+border-bottom: 3px solid rgba(255, 255, 255, 0.816);
+}
+#main 
+{
+width:60%;
+height:100%;
+margin: auto;
+align-items: center;
+color: white;
+}
+.display-hide
+{
+    display: none;
+}
+.display-show
+{
+    display: inline-block;
+}
+
+.question {
+    height:auto;
+     overflow: hidden;
+}
+
+.blurry{
+    backdrop-filter: blur(75px); /* Adjust the blur radius as needed */
+    z-index: 1;
+    border-radius: 10%;
+}
+
+
+/* .animated-text {
+    white-space: nowrap;
+    overflow: hidden;
+    animation: animate 3s forwards;
+  } */
+  @keyframes animate {
+    0% { 
+      width: 0px;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  .waviy {
+    position: relative;
+  }
+  .waviy span {
+    position: relative;
+    display: inline-block;
+    font-size: 40px;
+    color: #fff;
+    text-transform: uppercase;
+    animation: flip 8s infinite;
+    animation-delay: calc(0.8s * var(--i))
+  }
+  @keyframes flip {
+    0%,80% {
+      transform: rotateX(360deg)
+    }
+  }
+  

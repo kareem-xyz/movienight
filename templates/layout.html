@@ -8,8 +8,8 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-        <link href="static/styles.css" rel="stylesheet">
-        <link rel="icon" href="static/favicon.png">
+        <link href="static/CSS/styles.css" rel="stylesheet">
+        <link rel="icon" href="static/assets/favicon.png">
 
         {% block scripts_head %}
         {% endblock %}
@@ -18,9 +18,20 @@
     </head>
 
     <body>
-        <div id="main" class="container" >
-            <h1>Movie Night</h1>
-            <br>
+        <div id="main" class="container">
+            <div id="movienight" class="waviy">
+                <span style="--i:1">M</span>
+                <span style="--i:2">O</span>
+                <span style="--i:3">V</span>
+                <span style="--i:4">I</span>
+                <span style="--i:5">E</span>
+                <span style="--i:6">N</span>
+                <span style="--i:7">I</span>
+                <span style="--i:8">G</span>
+                <span style="--i:9">H</span>
+                <span style="--i:10">T</span>
+            </div>
+            <br><br>
             <form action="/search" method="get" id="search-form">
                 <div class="row gx-5 gy-4">
                     <div class="col">
@@ -57,10 +68,10 @@
             {% endblock %}
             <br><br>
             <footer class="mb-5 small text-center">
-                Api provided by <a href="https://rapidapi.com/SAdrian/api/moviesdatabase/">RapidApi</a>
+                Made by <strong>Kareem Rashad</strong> <a href="">Contact</a> <br> Api provided by Adrian Massimo from <a href="https://rapidapi.com/SAdrian/api/moviesdatabase/">RapidApi</a>
             </footer>
         </div>
-        <script src="static/layout.js"></script>
+        <script src="static/JS/layout.js"></script>
         {% block scripts_body %}
         {% endblock %}
     </body>
