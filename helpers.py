@@ -33,7 +33,18 @@ def get_all_movies_info(IDs_list):
     # Convert to json and return only the results
     return (response.json())['results']
 
-
+# Given a list of actors data, find the movies for each actors and return a list of movie IDs
+def get_actors_movies(lst):
+    movie_ID_list = []
+    for index, actor in enumerate(lst):
+        try:
+            movie_ID_list += (actor['results']['knownForTitles']).split(',')
+        except Exception as e:
+            print(f'Error at index {index}')
+            print(e)
+            continue
+    return movie_ID_list
+        
 # Data for list of actors. Asyncio. Takes list of cast IDs.
 async def get_all_actors_info(cast_list):
     coroutines = [get_actor_info(actor_id) for actor_id in cast_list]
