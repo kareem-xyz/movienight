@@ -33,6 +33,7 @@
             </div>
             <br><br>
             <form action="/search" method="get" id="search-form">
+                {% block main_col %}
                 <div class="row gx-5 gy-4">
                     <div class="col">
                         <input name='movie0' id="movie0" type="text" class="form-control" placeholder="Movie Name" required autocomplete="off">
@@ -47,6 +48,7 @@
                         </button>
                     </div>
                 </div>
+                {% endblock %}
             </form>
             <div class="container">
                 <br>

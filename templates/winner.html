@@ -1,39 +1,26 @@
 {% extends 'search.html' %}
 
-{% block col_0 %}
+{% block main_col %}
 {% if winner %}
-<div class ="row bg-dark mb-4 p-0">
-    <div class="col ratio ratio-1x1">
-        <img src="{{ winner['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start " onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
-    </div>
-    <div class="col text-start p-4">
-        <h6>{{winner["titleText"]["text"] }} ({{winner["releaseYear"]["year"]}})</h6>
-        {% if winner['runtime']['seconds'] %}
-            {% set secs = movie['runtime']['seconds']%}
-            {% set mins, hours = secs//60%60, secs//3600, %}
-            <p class="fst-italic fst-lighter fs-6">
-            {% if hours > 0 %}{{hours}}h{% endif %} 
-            {% if mins > 0 %}{{mins}}m{% endif %}
-            </p>
-        {% endif %}
-        {% if winner["plot"] %}
-        {% if winner["plot"]["plotText"] %}
-        {% if winner["plot"]["plotText"]["plainText"] %}
-        {% set plot = winner['plot']['plotText']['plainText'] %}
-        {% if plot|length > 150 %}
-            {% set plot = (plot[:150] + '...') %}
-        {% endif %}
-        {% endif %}
-        {% endif %}
-        {% endif %}
-        <p class="fst-italic fst-lighter fs-6 text-start plot">{{plot}}</p>
-        <br>
-        <button class="btn btn-outline-primary" onclick="choose(this);" type="button" data-list="0" data-index="{{ loop.index0 }}" data-title="{{ winner['titleText']['text'] }}">Choose</button>
-    </div>
-</div>
-{% else %}
-<div class ="row bg-dark mb-4 p-4">
-No movies found
+<div class="row gx-5 gy-4" style="width:30%;">
+        <div class="col">
+            <img src="{{ winner['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start " onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
+            <h3>{{winner["titleText"]["text"] }} ({{winner["releaseYear"]["year"]}})</h3>
+            <br>
+            <!-- this was part of above button : data-index="""curly braces of jinja""loop.index0 " -->
+        </div>
+
+        <div class="col">
+            <h3>WINNER</h3>
+        </div> 
 </div>
 {% endif %}
+{% endblock %}
+
+<!-- Nothing, this simply overwrites whats in search.html -->
+{% block excuse0 %}
+{% endblock %}
+{% block excuse1 %}
+{% endblock %}
+{% block scripts_body %}
 {% endblock %}

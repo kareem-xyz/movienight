@@ -139,3 +139,20 @@ function getMovieCast(movie) {
     return cast;
 }
 
+// returns an array containing two arrays which are the unique values from each.
+function removeOverlap(array1, array2) {
+    // Create sets for efficient lookup
+    const set1 = new Set(array1);
+    const set2 = new Set(array2);
+
+    // Filter out elements from array1 that are in array2
+    const uniqueFromArray0 = array1.filter(item => !set2.has(item));
+
+    // Filter out elements from array2 that are in array1
+    const uniqueFromArray1 = array2.filter(item => !set1.has(item));
+
+    // Combine unique elements
+    let x = [uniqueFromArray0, uniqueFromArray1]
+    return x;
+}
+

@@ -45,9 +45,11 @@
     </div>
     {% endfor %}
     {% else %}
+    {% block excuse0 %}
     <div class ="row bg-dark mb-4 p-4">
     No movies found
     </div>
+    {% endblock %}
     {% endif %}
 {% endblock %}
 
@@ -84,9 +86,11 @@
         </div>
     {% endfor %}
     {% else %}
+    {% block excuse1 %}
     <div class ="row bg-dark mb-4 p-4">
     No movies found
     </div>
+    {% endblock %}
     {% endif %}
 {% endblock %}
 {% block scripts_body %}

@@ -28,8 +28,8 @@ for (let i = 0; i < totalQuestions; i++)
 
 const q_type_functions = 
 {
-    'multiSelect' : saveAnswer_multiSelect(),
-    'singleSelect' : saveAnswer_singleSelect()
+    // 'multiSelect' : saveAnswer_multiSelect(),
+    // 'singleSelect' : saveAnswer_singleSelect()
 }
 
 // Renders each question to the html file, based on the type of the question and its options.
@@ -265,7 +265,7 @@ switch (q_type) {
     }
 }
 
-function finishQuiz() {
+function finishQuiz(event) {
     
     // Create a hidden input field to add choices
     var winner = document.createElement('input');
@@ -276,7 +276,8 @@ function finishQuiz() {
     // Currently sends the whole choice data (later on will refine to save data)
 
     /////////////////////////////////// PENDING :write function that returns winner movie after calculating points for each movies from Answers. (includes its data)
-    winner.value = findWinner();
+    // winner.value = findWinner();
+    winner.value = sessionStorage.getItem('choice_0');
     ///////////////////////////////////
 
     // Check if function calls succeeded

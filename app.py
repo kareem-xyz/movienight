@@ -137,9 +137,11 @@ def result():
     
     return render_template('fight.html', questions=q, m0_similarMovies=s0, m1_similarMovies=s1)
 
-@app.route('/winner', methods=['POST,GET'])
+@app.route('/winner', methods=['POST'])
 def winner():
-    return render_template('winner.html')
+    winner = request.form.get('winner')
+    winner = json.loads(winner)
+    return render_template('winner.html', winner=winner)
     
 if __name__ == "__main__":
     app.run(debug=True)
