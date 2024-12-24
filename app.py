@@ -139,7 +139,7 @@ def result():
 
 @app.route('/winner', methods=['POST,GET'])
 def winner():
-    
+    return render_template('winner.html')
     
 if __name__ == "__main__":
     app.run(debug=True)

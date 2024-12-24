@@ -61,29 +61,33 @@ function choose(button)
 function InputAndSubmit(event) {
 
     // Create a hidden input field to add choices
-    var winner = document.createElement('input');
+    var hiddenInput_0 = document.createElement('input');
+    var hiddenInput_1 = document.createElement('input');
 
-    winner.type = 'hidden';
-    winner.name = 'winner';
+    hiddenInput_0.type = 'hidden';
+    hiddenInput_1.type = 'hidden';
+
+    hiddenInput_0.name = 'cast_0';
+    hiddenInput_1.name = 'cast_1';
     
     // Currently sends the whole choice data (later on will refine to save data)
-
-    /////////////////////////////////// PENDING :write function that returns winner movie after calculating points for each movies from Answers. (includes its data)
-    winner.value = findWinner();
-    ///////////////////////////////////
+    hiddenInput_0.value = getMovieCast(sessionStorage.getItem('choice_0'));
+    hiddenInput_1.value = getMovieCast(sessionStorage.getItem('choice_1'));
 
     // Check if function calls succeeded
-    if (!(winner.value))
+    if (!(hiddenInput_0.value && hiddenInput_1.value))
     {
         console.error('CHOOSE BOTH MOVIES PLEASE');
         return false;
     }
 
     // Remove existing hidden inputs with the same names
-    event.target.querySelectorAll('input[name="winner"]').forEach(el => el.remove());
+    event.target.querySelectorAll('input[name="cast_0"]').forEach(el => el.remove());
+    event.target.querySelectorAll('input[name="cast_1"]').forEach(el => el.remove());
 
     // Append the new hidden input field to the form
-    event.target.appendChild(winner);
+    event.target.appendChild(hiddenInput_0);
+    event.target.appendChild(hiddenInput_1);
 
     // Continue with the form submission
     return true; // Returning true allows the form submission to proceed
@@ -135,19 +139,3 @@ function getMovieCast(movie) {
     return cast;
 }
 
-// returns an array containing two arrays which are the unique values from each.
-function removeOverlap(array1, array2) {
-    // Create sets for efficient lookup
-    const set1 = new Set(array1);
-    const set2 = new Set(array2);
-
-    // Filter out elements from array1 that are in array2
-    const uniqueFromArray0 = array1.filter(item => !set2.has(item));
-
-    // Filter out elements from array2 that are in array1
-    const uniqueFromArray1 = array2.filter(item => !set1.has(item));
-
-    // Combine unique elements
-    let x = [uniqueFromArray0, uniqueFromArray1]
-    return x;
-}

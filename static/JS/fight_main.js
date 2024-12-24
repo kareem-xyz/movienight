@@ -265,6 +265,33 @@ switch (q_type) {
     }
 }
 
-finishQuiz() {
+function finishQuiz() {
     
+    // Create a hidden input field to add choices
+    var winner = document.createElement('input');
+
+    winner.type = 'hidden';
+    winner.name = 'winner';
+    
+    // Currently sends the whole choice data (later on will refine to save data)
+
+    /////////////////////////////////// PENDING :write function that returns winner movie after calculating points for each movies from Answers. (includes its data)
+    winner.value = findWinner();
+    ///////////////////////////////////
+
+    // Check if function calls succeeded
+    if (!(winner.value))
+    {
+        console.error('CHOOSE BOTH MOVIES PLEASE');
+        return false;
+    }
+
+    // Remove existing hidden inputs with the same names
+    event.target.querySelectorAll('input[name="winner"]').forEach(el => el.remove());
+
+    // Append the new hidden input field to the form
+    event.target.appendChild(winner);
+
+    // Continue with the form submission
+    return true; // Returning true allows the form submission to proceed
 }
