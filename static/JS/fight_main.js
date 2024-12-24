@@ -32,37 +32,8 @@ const q_type_functions =
     'singleSelect' : saveAnswer_singleSelect()
 }
 
-function fillQuestionsJSON(){
-    // Read data
-    simMovies_q = 'q5'
-    m0_simMovies = JSON.parse(sessionStorage.getItem('choice_0'))['similarMovies']
-    m1_simMovies = JSON.parse(sessionStorage.getItem('choice_1'))['similarMovies']
-    length_AllSimMovies= m0_simMovies.length + m1_simMovies.length;
-    max_options = length_AllSimMovies <= 6 ? length_AllSimMovies : 6;
-    QUESTIONS[simMovies_q]['options']['max'] = max_options
-
-    // add to QUESTIONS
-    function addSimMoviesToQuestions(movie_no_str, simMoviesList)
-    {
-        let simMovies_q = 'q5';
-        key_index = Object.keys(QUESTIONS?.[simMovies_q]?.['options']?.['keys']).length !== undefined ? Object.keys(QUESTIONS[simMovies_q]['options']['keys']).length : 0;//to determine where to push key
-        for (i in simMoviesList){
-        let key = {}
-        key['id'] = `o${key_index}`;
-        key['text'] = simMoviesList[i]?.['titleText']?.['text'];
-        key['image'] = simMoviesList[i]?.['primaryImage']?.['url'];
-        key['relatedMovie'] = `m${movie_no_str}`;
-        key['value'] = 1;
-        QUESTIONS[simMovies_q]['options']['keys'][`o${key_index}`] = key;
-        key_index++;
-        }
-    }
-    addSimMoviesToQuestions('0', m0_simMovies);
-    addSimMoviesToQuestions('1', m1_simMovies);
-}
-
 // Renders each question to the html file, based on the type of the question and its options.
-function renderQuestion(q_id)
+function renderQuestion(q_id, operation='insert')
 {
     // Render the Question Div
     let question = document.createElement('div');
@@ -90,11 +61,14 @@ function renderQuestion(q_id)
     let type = typeof answers_html;
     question.insertAdjacentHTML('beforeend', `<div class='animated-text'>${answers_html}</div`);
 
-    // Add Question to Webpage
-    document.getElementById('questions').appendChild(question)
+    // If first time then insert, if updating (like q2 then update present question accordingly)
+    if (operation == 'insert') {
+         document.getElementById('questions').appendChild(question)}
+    // else if (operation == 'update'){
+    //     document.getElementById('q_id') = question
 }
 
-// Returns options_html for a given question id and already rendered div.
+// Returns options_html for a given question id (assumes already rendered questions div).
 function GenerateAnswersHTML(q_id)
 {
     let q_object = QUESTIONS[q_id]
@@ -167,14 +141,14 @@ function GenerateAnswersHTML(q_id)
     return keys_html
 }
 
-// Move between questions in the quiz, Start quiz, and finish quiz.
+// Move between questions in the quiz, Start quiz, and finish quiz. (Currently moves between questions 0, 1, 2 only. Later on will add more questions)
 function changeQuestion(direction)
 {
     console.log(`Before function: current_q: q${current_q}`);
     switch(direction)
     {
-      case 'next':
-        if (current_q >= 0 && current_q < totalQuestions - 1) // Using total_q-1 because current_q starts from 0.
+      case 'next': ///////////////////////V1.0 changes, for later on will have current_q < totalQuestions - 1
+        if (current_q >= 0 && current_q < 2) // Using total_q-1 because current_q starts from 0.
         {
             // Hide current question, show next question
             document.getElementById(`q${current_q}`).style.display = 'none';
@@ -185,7 +159,8 @@ function changeQuestion(direction)
         }
 
         // if reached last Question
-        if (current_q == totalQuestions - 1)
+        // if (current_q == totalQuestions - 1)
+        if (current_q == 2)
         {  
             document.getElementById('nextQuestionButton').style.visibility = 'hidden';
             document.getElementById('finishQuizButton').style.display = 'inline-block';
@@ -230,7 +205,6 @@ function changeQuestion(direction)
     default:
         console.log('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere')
     }
-    console.log(`After function: current_q: q${current_q} \n`)
 }
 
 // Record an option pressed to ANSWERS. Also unrecord old and unwanted answers.
@@ -291,15 +265,6 @@ switch (q_type) {
     }
 }
 
-// Ran from ANSWERS. scores points for each selected option. Should not add more points per multiple clicks. 
-function saveAnswer_multiSelect(input)
-{
-
-// let related_movie = input.getAttribute('data-related-movie')
-// let q_id = (input.id).slice(0,2)
-//     POINTS[related_movie][q_id]
+finishQuiz() {
+    
 }
-
-function saveAnswer_singleSelect(input)
-{
-    }

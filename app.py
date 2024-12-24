@@ -136,3 +136,10 @@ def result():
         return render_template('bug.html', bug='Did not find list of similar movies for one of the movies, OR movie data is cleared')
     
     return render_template('fight.html', questions=q, m0_similarMovies=s0, m1_similarMovies=s1)
+
+@app.route('/winner', methods=['POST,GET'])
+def winner():
+    
+    
+if __name__ == "__main__":
+    app.run(debug=True)
