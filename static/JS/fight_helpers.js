@@ -39,32 +39,63 @@ function helper_simMovies(){
     addSimMoviesToQuestions('1', m1_simMovies);
 }
 
+// dynamically populates the q2 with options based on the keywords (genres and themes) of each movie movies
 function helper_q2() {
-    // fill keywords questions with relevant keywords.
-    genres = [[],[]]
-    objs = [JSON.parse(sessionStorage.getItem('choice_0')), 
-        JSON.parse(sessionStorage.getItem('choice_1'))]
+    // extract and remove overlapping keywords
+    kWords = [[],[]]
+
+    objs = [
+        JSON.parse(sessionStorage.getItem('choice_0')), 
+        JSON.parse(sessionStorage.getItem('choice_1'))
+    ]
         for (m = 0; m < objs.length; m++) {
+            // reference to list of genres and themes of movie object
             g_array = objs[m]['genres']['genres']
+            t_array = objs[m]['keywords']['edges']
+
+            // genres collection loop
             for (g = 0; g < g_array.length; g++) {
-                genres[m].push(g_array[g]['text'])
+                kWords[m].push(g_array[g]['text'])
+            }
+            // themes collection loop
+            for (t = 0; t < t_array.length; t++) {
+                kWords[m].push(t_array[t]['node']['text'])
             }
         }
-    print(genres)
-    genres = removeOverlap(genres[0], genres[1])
+    kWords = removeOverlap(kWords[0], kWords[1])
 
-    o = 0
-    for (m=0; m < genres.length; m++) {
-        for (g = 0; g < genres[m].length; g++, o++) {
+    // Populate questions.json with keywords (includes other information)
+    o_count = 0 // do not change
+    for (m=0; m < kWords.length; m++) {
+        for (k = 0; k < kWords[m].length; k++, o_count++) {
             key = {
-                "id": `o${o}`,
-                "text": `${genres[m][g]}`,
+                "id": `o${o_count}`,
+                "text": `${kWords[m][k]}`,
                 "value": "2",
                 "rel_movie": m
             }
-            QUESTIONS['q2']['options']['keys'][`o${o}`] = key
+            QUESTIONS['q2']['options']['keys'][`o${o_count}`] = key
+            QUESTIONS['q2']['options']['max'] = Math.round(o_count / 2.5)
     }
 }
 console.log('Question 2 Populated')
 }
 
+// calculates time score deviation
+function calculateTimeScore(t, t0) {     // t is actual, t0 is goal
+    // Ensure the score doesn't drop below 0
+    const deviationLimit = 3600; // One hour deviation in seconds
+    return Math.max(0, 3 * (1 - Math.abs(t - t0) / deviationLimit));
+}
+// Calculates a score for each movies based on its variance from a base vote count value.
+// Base value is: rating = 7, vote = 10000, then score = 8
+function calculateRatingScore(rating, votes) {
+    const BASE_VOTES = 500000;
+    const MAX_ADJUSTMENT = 2; // Maximum adjustment value
+
+    let adjustment = 0;
+    if (votes) {
+        adjustment += (votes - BASE_VOTES) * (1 / rating) / BASE_VOTES;
+        adjustment = Math.min(adjustment, MAX_ADJUSTMENT); // Cap the adjustment to 2 points
+    }
+    return rating + adjustment;}

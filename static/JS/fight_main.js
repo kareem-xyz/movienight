@@ -8,7 +8,7 @@ const POINTS = {
 let current_q = -1;
 
 // initialise Arrays: POINTS, ANSWERS, 
-for (let i = 0; i < totalQuestions; i++)
+for (let i = 0; i < 3; i++)
 {
     q_id = `q${i}`;
     q_data = QUESTIONS[q_id];
@@ -213,7 +213,7 @@ function saveAnswer(button)
 let q_id = (button.id).slice(0,2)
 let q_data = QUESTIONS[q_id]
 let q_type = q_data['type']
-let o_id = (button.id).slice(3,5)
+let o_id = (button.id).slice(3)
 let o_data = q_data['options']['keys'][o_id]
 
 // Record answer based on question type
@@ -275,17 +275,19 @@ function finishQuiz(event) {
     
     // Currently sends the whole choice data (later on will refine to save data)
 
-    /////////////////////////////////// PENDING :write function that returns winner movie after calculating points for each movies from Answers. (includes its data)
-    // winner.value = findWinner();
-    winner.value = sessionStorage.getItem('choice_0');
-    ///////////////////////////////////
-
-    // Check if function calls succeeded
-    if (!(winner.value))
-    {
-        console.error('CHOOSE BOTH MOVIES PLEASE');
+    // Calculate winner from quiz questions
+    try {
+        let rtn = findWinner();
+        if (typeof rtn === 'object' && rtn !== null) {
+            winner.value = JSON.stringify(rtn);
+        } else {
+            throw new Error('No valid winner data returned');
+        }
+    } catch (error) {
+        console.error(error.message);
+        alert('An error occurred while determining the winner. Please try again.');
         return false;
-    }
+    } 
 
     // Remove existing hidden inputs with the same names
     event.target.querySelectorAll('input[name="winner"]').forEach(el => el.remove());
@@ -295,4 +297,51 @@ function finishQuiz(event) {
 
     // Continue with the form submission
     return true; // Returning true allows the form submission to proceed
+}
+
+function findWinner() {
+        m0_obj = JSON.parse(sessionStorage.getItem('choice_0'))
+        m1_obj = JSON.parse(sessionStorage.getItem('choice_1'))
+        m0_obj['totalScore'] = 0
+        m1_obj['totalScore'] = 0
+        let movies = [m0_obj, m1_obj];
+        for (let index = 0; index < movies.length; index++) {
+            let m = movies[index];
+        // currently hard coded till question 2 only
+        if (ANSWERS['q0']['value'] == 1) { // cares about ratings
+            rating = m['ratingsSummary']['aggregateRating']
+            vote_count = m['ratingsSummary']['voteCount']
+            if (rating != 0){ // available data
+                m['totalScore'] += calculateRatingScore(rating, vote_count) // function takes care of 0 votes.
+            }
+        }
+        ///////////////////////
+        // q1
+        if (ANSWERS['q1']['id'] != 'o0') { // if user cares about time
+            goal = Number(ANSWERS['q0']['value'])
+            m_runtime = Number(m['runtime']['seconds'])
+            m['totalScore'] += calculateTimeScore(m_runtime, goal) // add decimal score depending on answer
+        }
+        // q2
+        if (ANSWERS['q2'].length != 0){
+            for (o = 0; o < ANSWERS['q2'].length; o++){
+                console.log(o)
+                option = ANSWERS['q2'][o]
+                if (option['rel_movie'] == index) {
+                    m['totalScore'] += option['value']
+                }
+            }
+        }
+    }
+    // return winner
+    if (movies[0]['totalScore'] > movies[1]['totalScore']){
+        return movies[0]
+    }
+    else if (movies[0]['totalScore'] < movies[1]['totalScore']){
+        return movies[1]
+    }
+    else {
+        alert('Movies are equal')
+        return undefined
+    }
 }

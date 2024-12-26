@@ -140,7 +140,10 @@ def result():
 @app.route('/winner', methods=['POST'])
 def winner():
     winner = request.form.get('winner')
-    winner = json.loads(winner)
+    if winner:
+        winner = json.loads(winner)
+    else:
+        return render_template('bug.html', bug='Did not receive winner movie')
     return render_template('winner.html', winner=winner)
     
 if __name__ == "__main__":

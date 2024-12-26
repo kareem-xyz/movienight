@@ -95,6 +95,7 @@
 {% endblock %}
 {% block scripts_body %}
 <script>
+    sessionStorage.clear()
     // Convert Passed data to JS object for usage
     const datalist_0 = JSON.parse('{{datalist_0 | tojson | safe}}');
     const datalist_1 = JSON.parse('{{datalist_1 | tojson | safe}}');
