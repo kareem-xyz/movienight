@@ -1,7 +1,0 @@
-DONE: tart by showing only 3 questions
-
-for multi select question, adjust keywords so they are derived from the chosen movies. this is done in python before sending via json to javascript.
-
-complete the evaluate functions to compare which movies has the two attributes
-
-results is one of three options, movie 1 wins, movie 2, or no movie wins (tie breaker or each one )

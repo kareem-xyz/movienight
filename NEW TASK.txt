@@ -1,10 +1,3 @@
-To complete before flying over. Keep as version 1. Questions are not dynamic for now. Keep only simple questions. Pictures and other things can be implemented in a V2 of the website. 
-Fixup last questions and assign score for question.
-Add similar movies questions (simple names)
-Compute Score for each movie.
-Show Winner
-Done Button to go back to homescreen.
-
 IDEAS:
 background changes according to the two movies posters.
 On final page, connect payer to platform to show where movies will be shown. Also, could make payment plans through my website.
