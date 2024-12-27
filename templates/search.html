@@ -4,7 +4,6 @@
 <div class="row m-auto w-50">
     <div class="col-12">
         <form onsubmit="return InputAndSubmit(event)" action="/fight" method="post">
-            <!-- Form input is dynamically imported from sessionStorage, and added through JS  -->
             <button type="submit" class="btn bg-danger w-100"><span class="spinner-border spinner-border-sm load-status display-hide" aria-hidden="true"></span><strong> Fight</strong></button>
         </form>
     </div>
@@ -14,18 +13,18 @@
 {% block col_0 %}
     {% if datalist_0 %}
     {% for movie in datalist_0 %}
-    <div class ="row bg-dark mb-4 p-0">
+    <div class="row bg-dark mb-4 p-0">
         <div class="col ratio ratio-1x1">
-            <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start " onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
+            <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start" onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
         </div>
         <div class="col text-start p-4">
-            <h6>{{movie["titleText"]["text"] }} ({{movie["releaseYear"]["year"]}})</h6>
+            <h6>{{ movie["titleText"]["text"] }} ({{ movie["releaseYear"]["year"] }})</h6>
             {% if movie['runtime']['seconds'] %}
-                {% set secs = movie['runtime']['seconds']%}
-                {% set mins, hours = secs//60%60, secs//3600, %}
+                {% set secs = movie['runtime']['seconds'] %}
+                {% set mins, hours = secs // 60 % 60, secs // 3600 %}
                 <p class="fst-italic fst-lighter fs-6">
-                {% if hours > 0 %}{{hours}}h{% endif %} 
-                {% if mins > 0 %}{{mins}}m{% endif %}
+                {% if hours > 0 %}{{ hours }}h{% endif %}
+                {% if mins > 0 %}{{ mins }}m{% endif %}
                 </p>
             {% endif %}
             {% if movie["plot"] %}
@@ -38,7 +37,7 @@
             {% endif %}
             {% endif %}
             {% endif %}
-            <p class="fst-italic fst-lighter fs-6 text-start plot">{{plot}}</p>
+            <p class="fst-italic fst-lighter fs-6 text-start plot">{{ plot }}</p>
             <br>
             <button class="btn btn-outline-primary" onclick="choose(this);" type="button" data-list="0" data-index="{{ loop.index0 }}" data-title="{{ movie['titleText']['text'] }}">Choose</button>
         </div>
@@ -46,7 +45,7 @@
     {% endfor %}
     {% else %}
     {% block excuse0 %}
-    <div class ="row bg-dark mb-4 p-4">
+    <div class="row bg-dark mb-4 p-4">
     No movies found
     </div>
     {% endblock %}
@@ -56,38 +55,38 @@
 {% block col_1 %}
     {% if datalist_1 %}
     {% for movie in datalist_1 %}
-        <div class ="row bg-dark mb-4 p-0">
-            <div class="col ratio ratio-1x1">
-                <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start" onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
-            </div>
-            <div class="col text-start p-4">
-                <h6>{{ movie['titleText']['text'] }} ({{movie["releaseYear"]["year"]}})</h6>
-                {% if movie['runtime']['seconds'] %}
-                    {% set secs = movie['runtime']['seconds']%}
-                    {% set mins, hours = secs//60%60, secs//3600, %}
-                    <p class="fst-italic fst-lighter fs-6">
-                    {% if hours > 0 %}{{hours}}h{% endif %} 
-                    {% if mins > 0 %}{{mins}}m{% endif %}
-                    </p>
-                {% endif %}
-                {% if movie["plot"] %}
-                {% if movie["plot"]["plotText"] %}
-                {% if movie["plot"]["plotText"]["plainText"] %}
-                {% set plot = movie['plot']['plotText']['plainText'] %}
-                {% if plot|length > 150 %}
-                    {% set plot = (plot[:150] + '...') %}
-                {% endif %}
-                    <p class="fst-italic fst-lighter fs-6 text-start">{{plot}}</p>
-                {% endif %}
-                {% endif %}
-                {% endif %}
-                <button class="btn btn-outline-primary" onclick="choose(this);" type="button" data-list="1" data-index="{{ loop.index0 }}" data-title="{{ movie['titleText']['text'] }}">Choose</button>
-            </div>
+    <div class="row bg-dark mb-4 p-0">
+        <div class="col ratio ratio-1x1">
+            <img src="{{ movie['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded float-start" onerror="this.onerror=null; this.src='static/assets/noimage.jpg'">
         </div>
+        <div class="col text-start p-4">
+            <h6>{{ movie["titleText"]["text"] }} ({{ movie["releaseYear"]["year"] }})</h6>
+            {% if movie['runtime']['seconds'] %}
+                {% set secs = movie['runtime']['seconds'] %}
+                {% set mins, hours = secs // 60 % 60, secs // 3600 %}
+                <p class="fst-italic fst-lighter fs-6">
+                {% if hours > 0 %}{{ hours }}h{% endif %}
+                {% if mins > 0 %}{{ mins }}m{% endif %}
+                </p>
+            {% endif %}
+            {% if movie["plot"] %}
+            {% if movie["plot"]["plotText"] %}
+            {% if movie["plot"]["plotText"]["plainText"] %}
+            {% set plot = movie['plot']['plotText']['plainText'] %}
+            {% if plot|length > 150 %}
+                {% set plot = (plot[:150] + '...') %}
+            {% endif %}
+                <p class="fst-italic fst-lighter fs-6 text-start">{{ plot }}</p>
+            {% endif %}
+            {% endif %}
+            {% endif %}
+            <button class="btn btn-outline-primary" onclick="choose(this);" type="button" data-list="1" data-index="{{ loop.index0 }}" data-title="{{ movie['titleText']['text'] }}">Choose</button>
+        </div>
+    </div>
     {% endfor %}
     {% else %}
     {% block excuse1 %}
-    <div class ="row bg-dark mb-4 p-4">
+    <div class="row bg-dark mb-4 p-4">
     No movies found
     </div>
     {% endblock %}
@@ -96,9 +95,8 @@
 {% block scripts_body %}
 <script>
     sessionStorage.clear()
-    // Convert Passed data to JS object for usage
-    const datalist_0 = JSON.parse('{{datalist_0 | tojson | safe}}');
-    const datalist_1 = JSON.parse('{{datalist_1 | tojson | safe}}');
+    const datalist_0 = JSON.parse('{{ datalist_0 | tojson | safe }}');
+    const datalist_1 = JSON.parse('{{ datalist_1 | tojson | safe }}');
 </script>
-<script src="static/JS/helpers.js"></script>
+<script src="{{ url_for('static', filename='JS/helpers.js') }}"></script>
 {% endblock %}

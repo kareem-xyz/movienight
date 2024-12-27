@@ -77,7 +77,7 @@ function InputAndSubmit(event) {
     // Check if function calls succeeded
     if (!(hiddenInput_0.value && hiddenInput_1.value))
     {
-        console.error('CHOOSE BOTH MOVIES PLEASE');
+        alert('Choose both movies please');
         return false;
     }
 

@@ -144,7 +144,6 @@ function GenerateAnswersHTML(q_id)
 // Move between questions in the quiz, Start quiz, and finish quiz. (Currently moves between questions 0, 1, 2 only. Later on will add more questions)
 function changeQuestion(direction)
 {
-    console.log(`Before function: current_q: q${current_q}`);
     switch(direction)
     {
       case 'next': ///////////////////////V1.0 changes, for later on will have current_q < totalQuestions - 1
@@ -203,7 +202,7 @@ function changeQuestion(direction)
         break;
     // Idk if this will ever trigger :)
     default:
-        console.log('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere')
+        alert('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere')
     }
 }
 
@@ -280,10 +279,11 @@ function finishQuiz(event) {
     // Calculate winner from quiz questions
     try {
         let rtn = findWinner();
-        if (typeof rtn === 'object' && rtn !== null) {
-            winner.value = JSON.stringify(rtn);
+        if (rtn !== null) {
+            if (typeof rtn === 'object') { winner.value = JSON.stringify(rtn);}
+            else if (rtn == 'equal') { winner.value = 'equal'; alert('Movies are equal in score'); return false;}
         } else {
-            throw new Error('No valid winner data returned');
+            throw new alert('No valid winner data returned');
         }
     } catch (error) {
         console.error(error.message);
@@ -311,13 +311,14 @@ function findWinner() {
         for (let index = 0; index < movies.length; index++) {
             let m = movies[index];
         // currently hard coded till question 2 only
-        if (ANSWERS['q0']['value'] == 1) { // cares about ratings
+        if (ANSWERS['q0']) {
+            if (ANSWERS['q0']['value'] == 1){ // cares about ratings
             rating = m['ratingsSummary']['aggregateRating']
             vote_count = m['ratingsSummary']['voteCount']
             if (rating != 0){ // available data
                 m['totalScore'] += calculateRatingScore(rating, vote_count) // function takes care of 0 votes.
             }
-        }
+        }}
         ///////////////////////
         // q1
         if (ANSWERS['q1']) {
@@ -352,7 +353,6 @@ function findWinner() {
         return movies[1]
     }
     else {
-        alert('Movies are equal')
-        return undefined
+        return 'equal'
     }
 }
