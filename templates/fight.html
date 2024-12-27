@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block body %}
 
-<button id='startQuizButton' type="button" class="btn btn-outline-light w-50" onclick="changeQuestion('start')">START QUIZ</button>
+<button id='startQuizButton' type="button" class="btn btn-outline-light w-50" onclick="changeQuestion('start')">Begin Fight !</button>
 <div class="container text-start blurry" id='quiz-container' style="display:none">
     <div class="container text-start" id="questions" style="display:none;">
         <h2>Questions</h2>
@@ -13,31 +13,47 @@
 
 <!-------------------------------------------------------------------><br><br>
 </div>
-<button type="button" class="btn btn-primary" style="display:none" id="finishQuizButton" onclick="finishQuiz()">FINISH QUIZ</button>
 
+<form onsubmit="return finishQuiz(event)" action="/winner" method="post">
+    <!-- Form input is dynamically imported from sessionStorage, and added through JS  -->
+    <button type="submit" class="btn btn-primary" style="display:none" id="finishQuizButton">FINISH QUIZ</button>
+</form>
 {% endblock %}
 
 {% block scripts_body %}
 <script src="static/JS/helpers.js"></script>
 
 <script>
-    // Save passed jinja variables to local JS
-    const QUESTIONS = JSON.parse('{{questions | tojson | safe}}');
+    // get already available data from sessionStorage
     let m0_data = JSON.parse(sessionStorage.getItem('choice_0'));
     let m1_data = JSON.parse(sessionStorage.getItem('choice_1'));
 
+    // Save passed jinja variables to local JS variable
+    let QUESTIONS = JSON.parse('{{questions | tojson | safe}}');
     m0_data['similarMovies'] = JSON.parse('{{m0_similarMovies | tojson | safe}}');
     m1_data['similarMovies'] = JSON.parse('{{m1_similarMovies | tojson | safe}}');
 
+    // update sessionStorage from local JS variable for global access
     sessionStorage.setItem('choice_0', JSON.stringify(m0_data));
     sessionStorage.setItem('choice_1', JSON.stringify(m1_data));
 
     // After page load
     document.addEventListener("DOMContentLoaded", function (){
+        ///////////////////PENDING
+        // LATER versions should have somewhat of a loop that will run the helper code for each question, storing the function calls in a dictionary or array. See fight helper file for info.
+        helper_q2()
+        helper_simMovies()
+        //////////////////
+
         // Render questions
+        i = 0
         for (let q in QUESTIONS)
-        {
+        { ///// CHANGED THIS TO ONLY SHOW THREE QUESTIONS. This is for version 1.0. Later on will change
             renderQuestion(q);
+            i += 1
+            if (i > 3) {
+                break
+            }
         }
         // Configure Radio buttons in quiz to record answers
         let radioButtons = document.querySelectorAll('.q-option');
@@ -46,7 +62,6 @@
             button.addEventListener('click', ()=> saveAnswer(button))
             // button id is configured as id='${q_id}-option${a_no}'
         });
-        fillQuestionsJSON()
         const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
         const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
       });

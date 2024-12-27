@@ -83,23 +83,18 @@ def fight():
     except Exception as e:
         return render_template('bug.html', bug=f'Error fetching actor info: {str(e)}')
     
+    # UNNECSSARY AFTER MADE FUNCTION FOR BELOW, Faced some trouble so might fall back
     # Run API to Get Movies of Actors
-    movies_IDs_0 = []
-    movies_IDs_1 = []
-    for index, actor in enumerate(list_0):
-        try:
-            movies_IDs_0 += (actor['results']['knownForTitles']).split(',')
-        except Exception as e:
-            print(f'Error at index {index}')
-            print(e)
-            continue
-    for index, actor in enumerate(list_1):
-        try:
-            movies_IDs_1 += (actor['results']['knownForTitles']).split(',')
-        except Exception as e:
-            print(f'Error at index {index}')
-            print(e)
-            continue
+    # movies_IDs_1 = []
+    # for index, actor in enumerate(list_0):
+    #     try:
+    #         movies_IDs_0 += (actor['results']['knownForTitles']).split(',')
+    #     except Exception as e:
+    #         print(f'Error at index {index}')
+    #         print(e)
+    #         continue
+    movies_IDs_0 = get_actors_movies(list_0)
+    movies_IDs_1 = get_actors_movies(list_1)
 
     # Remove duplicates from  each list (works by converting to dict and back to list)
     movies_IDs_0 = list(dict.fromkeys(movies_IDs_0))
@@ -141,3 +136,15 @@ def result():
         return render_template('bug.html', bug='Did not find list of similar movies for one of the movies, OR movie data is cleared')
     
     return render_template('fight.html', questions=q, m0_similarMovies=s0, m1_similarMovies=s1)
+
+@app.route('/winner', methods=['POST'])
+def winner():
+    winner = request.form.get('winner')
+    if winner:
+        winner = json.loads(winner)
+    else:
+        return render_template('bug.html', bug='Did not receive winner movie')
+    return render_template('winner.html', winner=winner)
+    
+if __name__ == "__main__":
+    app.run(debug=True)

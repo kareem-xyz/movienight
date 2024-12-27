@@ -32,6 +32,7 @@
                 <span style="--i:10">T</span>
             </div>
             <br><br>
+            {% block main_col %}
             <form action="/search" method="get" id="search-form">
                 <div class="row gx-5 gy-4">
                     <div class="col">
@@ -48,6 +49,7 @@
                     </div>
                 </div>
             </form>
+            {% endblock %}
             <div class="container">
                 <br>
                 {% block formSearch %}
@@ -68,7 +70,11 @@
             {% endblock %}
             <br><br>
             <footer class="mb-5 small text-center">
-                Made by <strong>Kareem Rashad</strong> <a href="">Contact</a> <br> Api provided by Adrian Massimo from <a href="https://rapidapi.com/SAdrian/api/moviesdatabase/">RapidApi</a>
+                Made by <strong>Kareem Rashad</strong> 
+                <a href="https://discord.com/channels/711320935365345281">Discord</a> 
+                <a href="mailto:kareemrashad.sd@gmail.com">| kareemrashad.sd@gmail.com</a>
+                <br> Api provided by Adrian Massimo from 
+                <a href="https://rapidapi.com/SAdrian/api/moviesdatabase/">RapidApi</a>
             </footer>
         </div>
         <script src="static/JS/layout.js"></script>
