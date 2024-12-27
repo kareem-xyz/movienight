@@ -119,10 +119,6 @@ Future versions will include:
 3. Answer the quiz questions to determine which movie is better for you.
 4. View the winning movie on the winner page.
 
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
 ## Contact
 
 - **Author**: Kareem Rashad
