@@ -1,10 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
 from concurrent.futures import ThreadPoolExecutor
-from datetime import timedelta
 from helpers import * # import all helper function from helper.py
 import json
-from itsdangerous import URLSafeTimedSerializer
 
 # Configure Application
 app = Flask(__name__)
