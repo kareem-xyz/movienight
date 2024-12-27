@@ -148,7 +148,7 @@ function changeQuestion(direction)
     switch(direction)
     {
       case 'next': ///////////////////////V1.0 changes, for later on will have current_q < totalQuestions - 1
-        if (current_q >= 0 && current_q < 2) // Using total_q-1 because current_q starts from 0.
+        if (current_q >= 0 && current_q < 3) // Using total_q-1 because current_q starts from 0.
         {
             // Hide current question, show next question
             document.getElementById(`q${current_q}`).style.display = 'none';
@@ -160,7 +160,7 @@ function changeQuestion(direction)
 
         // if reached last Question
         // if (current_q == totalQuestions - 1)
-        if (current_q == 2)
+        if (current_q == 3)
         {  
             document.getElementById('nextQuestionButton').style.visibility = 'hidden';
             document.getElementById('finishQuizButton').style.display = 'inline-block';
@@ -227,8 +227,12 @@ switch (q_type) {
         // max number of choices. if not availale set to options length
         let max_options = Number.isInteger(Number(q_data['options']['max'])) ? Number(q_data['options']['max']) : q_data['options']['keys'].length;
 
-        // Assign to empty spot in answers object
-        q_answers = ANSWERS[q_id] // this is an array of length(max_options), starts as empty
+
+        if (!ANSWERS[q_id]) {
+            // Assign to empty spot in answers object
+            ANSWERS[q_id] = Array();
+        }
+        let q_answers = ANSWERS[q_id];
 
         // Check if answer recorded before
         for (let i = 0; i < q_answers.length; i++) {
@@ -242,29 +246,27 @@ switch (q_type) {
 
         // New answer and available space
         if (q_answers.length < max_options) {
-            ANSWERS[q_id].push(o_data)
+            ANSWERS[q_id].push(o_data);
             return;
         }
 
         // New answer, But no space. Shift and uncheck old, push new
         else {
             let ans_toshift_id = ANSWERS[q_id][0]['id'];
-            let button_touncheck_id = `${q_id}-${ans_toshift_id}`
+            let button_touncheck_id = `${q_id}-${ans_toshift_id}`;
             document.getElementById(button_touncheck_id).checked = false;
-            ANSWERS[q_id].shift()
-            ANSWERS[q_id].push(o_data)
+            ANSWERS[q_id].shift();
+            ANSWERS[q_id].push(o_data);
             return;
         }
-    
+        break;
 
-    default: {
+    default:
         console.log('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere');
-    }
-
-
-    }
+}
 }
 
+// Runs on finish quiz button click. Calculates the winner and adds a hidden input field to the form.
 function finishQuiz(event) {
     
     // Create a hidden input field to add choices
@@ -299,6 +301,7 @@ function finishQuiz(event) {
     return true; // Returning true allows the form submission to proceed
 }
 
+// Return winner based on answers to questions. Run inside finishQuiz function.
 function findWinner() {
         m0_obj = JSON.parse(sessionStorage.getItem('choice_0'))
         m1_obj = JSON.parse(sessionStorage.getItem('choice_1'))
@@ -317,18 +320,26 @@ function findWinner() {
         }
         ///////////////////////
         // q1
-        if (ANSWERS['q1']['id'] != 'o0') { // if user cares about time
-            goal = Number(ANSWERS['q0']['value'])
+        if (ANSWERS['q1']) {
+            if (ANSWERS['q1']['id'] != 'o0'){ // if user cares about time
+            goal = Number(ANSWERS['q1']['value'])
             m_runtime = Number(m['runtime']['seconds'])
             m['totalScore'] += calculateTimeScore(m_runtime, goal) // add decimal score depending on answer
-        }
+        }}
         // q2
-        if (ANSWERS['q2'].length != 0){
+        if (ANSWERS['q2']){
             for (o = 0; o < ANSWERS['q2'].length; o++){
-                console.log(o)
                 option = ANSWERS['q2'][o]
                 if (option['rel_movie'] == index) {
-                    m['totalScore'] += option['value']
+                    m['totalScore'] += Number(option['value'])
+                }
+            }
+        }
+        if (ANSWERS['q3']){
+            for (o = 0; o < ANSWERS['q3'].length; o++){
+                option = ANSWERS['q3'][o]
+                if (option['rel_movie'] == index) {
+                    m['totalScore'] += Number(option['value'])
                 }
             }
         }

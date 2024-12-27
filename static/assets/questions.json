@@ -32,7 +32,7 @@
                     "o0": {
                         "id": "o0",
                         "text": "Anything",
-                        "value": "null"
+                        "value": "0"
                     },
                     "o1": {
                         "id": "o1",
@@ -66,6 +66,44 @@
             "more-info": {}
         },
         "q3": {
+            "type": "multiSelect",
+            "text": "Lets see about similar movies. Which of these did you watch and like?",
+            "related_key": "similarMovies",
+            "options": {
+                "type": "text",
+                "max": 3,
+                "keys": {}
+            },
+            "more-info":
+            {
+                "type": "text",
+                "text": "More info?",
+                "description" : "This movies are gathered from the director, writers, and principal cast of the chosen movies."
+            } 
+    },
+
+        "q4": {
+            "type": "SingleSelect",
+            "text": "Wanna watch a movie made in a specific period?",
+            "related_key": "releaseYear",
+            "options": {
+                "type": "text",
+                "keys": {
+                    "o0": {
+                        "id": "o0",
+                        "text": "No",
+                        "value": "1"
+                    },
+                    "o1": {
+                        "id": "o1",
+                        "text": "Yes",
+                        "value": "1"
+                    }
+                }
+            },
+                "more-info": {}
+        },
+        "q5": {
             "type": "singleSelect",
             "related_key": "genres/adult",
             "text": "Does the movie have to be Family friendly?",
@@ -89,42 +127,6 @@
                 "text": "More info?",
                 "description" : "We currently only support IMDB's classification of Adult movies, which might be misleading in some cases. if you want more detailed info about the movies, you can look up commonsensemedia.org"
             }
-        },
-        "q4": {
-            "type": "SingleSelect",
-            "text": "Wanna watch a movie made in a specific period?",
-            "related_key": "releaseYear",
-            "options": {
-                "type": "text",
-                "keys": {
-                    "o0": {
-                        "id": "o0",
-                        "text": "No",
-                        "value": "1"
-                    },
-                    "o1": {
-                        "id": "o1",
-                        "text": "Yes",
-                        "value": "1"
-                    }
-                }
-            },
-                "more-info": {}
-        },
-        "q5": {
-                "type": "multiSelect",
-                "text": "Lets see about similar movies. Which of these did you watch and like?",
-                "related_key": "similarMovies",
-                "options": {
-                    "type": "image",
-                    "keys": {}
-                },
-                "more-info":
-                {
-                    "type": "text",
-                    "text": "More info?",
-                    "description" : "This movies are gathered from the director, writers, and principal cast of the chosen movies."
-                } 
         }
     }
 }

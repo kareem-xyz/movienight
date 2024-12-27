@@ -12,23 +12,23 @@ function RunQuestionCheck(question_no)
 // Adds the similar movies part to the "somewhat of a helper function for the similar movies question"
 function helper_simMovies(){
     // Read data
-    simMovies_q = 'q5'
+    simMovies_q = 'q3'
     m0_simMovies = JSON.parse(sessionStorage.getItem('choice_0'))['similarMovies']
     m1_simMovies = JSON.parse(sessionStorage.getItem('choice_1'))['similarMovies']
-    length_AllSimMovies= m0_simMovies.length + m1_simMovies.length;
-    max_options = length_AllSimMovies <= 6 ? length_AllSimMovies : 6;
+    length_AllSimMovies = m0_simMovies.length + m1_simMovies.length;
+    max_options = Math.round(length_AllSimMovies / 3);
     QUESTIONS[simMovies_q]['options']['max'] = max_options
     // Inside function
     function addSimMoviesToQuestions(movie_no_str, simMoviesList)
     {
-        let simMovies_q = 'q5';
+        let simMovies_q = 'q3';
         key_index = Object.keys(QUESTIONS?.[simMovies_q]?.['options']?.['keys']).length !== undefined ? Object.keys(QUESTIONS[simMovies_q]['options']['keys']).length : 0;//to determine where to push key
         for (i in simMoviesList){
         let key = {}
         key['id'] = `o${key_index}`;
         key['text'] = simMoviesList[i]?.['titleText']?.['text'];
         key['image'] = simMoviesList[i]?.['primaryImage']?.['url'];
-        key['relatedMovie'] = `m${movie_no_str}`;
+        key['rel_movie'] = Number(movie_no_str);
         key['value'] = 1;
         QUESTIONS[simMovies_q]['options']['keys'][`o${key_index}`] = key;
         key_index++;
@@ -71,7 +71,7 @@ function helper_q2() {
             key = {
                 "id": `o${o_count}`,
                 "text": `${kWords[m][k]}`,
-                "value": "2",
+                "value": "3",
                 "rel_movie": m
             }
             QUESTIONS['q2']['options']['keys'][`o${o_count}`] = key
@@ -85,7 +85,7 @@ console.log('Question 2 Populated')
 function calculateTimeScore(t, t0) {     // t is actual, t0 is goal
     // Ensure the score doesn't drop below 0
     const deviationLimit = 3600; // One hour deviation in seconds
-    return Math.max(0, 3 * (1 - Math.abs(t - t0) / deviationLimit));
+    return (3 * (1 - Math.abs(t - t0) / deviationLimit));
 }
 // Calculates a score for each movies based on its variance from a base vote count value.
 // Base value is: rating = 7, vote = 10000, then score = 8

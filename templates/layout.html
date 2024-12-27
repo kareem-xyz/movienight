@@ -32,8 +32,8 @@
                 <span style="--i:10">T</span>
             </div>
             <br><br>
+            {% block main_col %}
             <form action="/search" method="get" id="search-form">
-                {% block main_col %}
                 <div class="row gx-5 gy-4">
                     <div class="col">
                         <input name='movie0' id="movie0" type="text" class="form-control" placeholder="Movie Name" required autocomplete="off">
@@ -48,8 +48,8 @@
                         </button>
                     </div>
                 </div>
-                {% endblock %}
             </form>
+            {% endblock %}
             <div class="container">
                 <br>
                 {% block formSearch %}
