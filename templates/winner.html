@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block main_col %}
+{% endblock %}
+
+{% block body %}
+{% if winner %}
+<style>
+    .winner-container {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    .winner-title {
+        border: 2px solid #ffc107;
+        padding: 10px;
+        display: inline-block;
+    }
+</style>
+<div class="winner-container" style="width:50%; margin: 0 auto;">
+    <div class="row gx-5 gy-4 justify-content-center">
+        <div class="col-12 d-flex align-items-center" style="padding-top: 0;">
+            <div class="me-3">
+                <img src="{{ winner['primaryImage']['url'] }}" class="img-fluid object-fit-cover rounded" onerror="this.onerror=null; this.src='static/assets/noimage.jpg'" style="max-width: 200px;">
+            </div>
+            <div>
+                <h3>WINNER</h3>
+                <h3 class="winner-title">{{ winner["titleText"]["text"] }} ({{ winner["releaseYear"]["year"] }})</h3>
+            </div>
+        </div>
+        <div class="col-12 text-center" style="padding-top: 20px;">
+            <a href="/" class="btn btn-warning w-50"><strong>New Fight</strong></a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

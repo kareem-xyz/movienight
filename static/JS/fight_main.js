@@ -8,7 +8,7 @@ const POINTS = {
 let current_q = -1;
 
 // initialise Arrays: POINTS, ANSWERS, 
-for (let i = 0; i < totalQuestions; i++)
+for (let i = 0; i < 3; i++)
 {
     q_id = `q${i}`;
     q_data = QUESTIONS[q_id];
@@ -28,41 +28,12 @@ for (let i = 0; i < totalQuestions; i++)
 
 const q_type_functions = 
 {
-    'multiSelect' : saveAnswer_multiSelect(),
-    'singleSelect' : saveAnswer_singleSelect()
-}
-
-function fillQuestionsJSON(){
-    // Read data
-    simMovies_q = 'q5'
-    m0_simMovies = JSON.parse(sessionStorage.getItem('choice_0'))['similarMovies']
-    m1_simMovies = JSON.parse(sessionStorage.getItem('choice_1'))['similarMovies']
-    length_AllSimMovies= m0_simMovies.length + m1_simMovies.length;
-    max_options = length_AllSimMovies <= 6 ? length_AllSimMovies : 6;
-    QUESTIONS[simMovies_q]['options']['max'] = max_options
-
-    // add to QUESTIONS
-    function addSimMoviesToQuestions(movie_no_str, simMoviesList)
-    {
-        let simMovies_q = 'q5';
-        key_index = Object.keys(QUESTIONS?.[simMovies_q]?.['options']?.['keys']).length !== undefined ? Object.keys(QUESTIONS[simMovies_q]['options']['keys']).length : 0;//to determine where to push key
-        for (i in simMoviesList){
-        let key = {}
-        key['id'] = `o${key_index}`;
-        key['text'] = simMoviesList[i]?.['titleText']?.['text'];
-        key['image'] = simMoviesList[i]?.['primaryImage']?.['url'];
-        key['relatedMovie'] = `m${movie_no_str}`;
-        key['value'] = 1;
-        QUESTIONS[simMovies_q]['options']['keys'][`o${key_index}`] = key;
-        key_index++;
-        }
-    }
-    addSimMoviesToQuestions('0', m0_simMovies);
-    addSimMoviesToQuestions('1', m1_simMovies);
+    // 'multiSelect' : saveAnswer_multiSelect(),
+    // 'singleSelect' : saveAnswer_singleSelect()
 }
 
 // Renders each question to the html file, based on the type of the question and its options.
-function renderQuestion(q_id)
+function renderQuestion(q_id, operation='insert')
 {
     // Render the Question Div
     let question = document.createElement('div');
@@ -90,11 +61,14 @@ function renderQuestion(q_id)
     let type = typeof answers_html;
     question.insertAdjacentHTML('beforeend', `<div class='animated-text'>${answers_html}</div`);
 
-    // Add Question to Webpage
-    document.getElementById('questions').appendChild(question)
+    // If first time then insert, if updating (like q2 then update present question accordingly)
+    if (operation == 'insert') {
+         document.getElementById('questions').appendChild(question)}
+    // else if (operation == 'update'){
+    //     document.getElementById('q_id') = question
 }
 
-// Returns options_html for a given question id and already rendered div.
+// Returns options_html for a given question id (assumes already rendered questions div).
 function GenerateAnswersHTML(q_id)
 {
     let q_object = QUESTIONS[q_id]
@@ -167,14 +141,13 @@ function GenerateAnswersHTML(q_id)
     return keys_html
 }
 
-// Move between questions in the quiz, Start quiz, and finish quiz.
+// Move between questions in the quiz, Start quiz, and finish quiz. (Currently moves between questions 0, 1, 2 only. Later on will add more questions)
 function changeQuestion(direction)
 {
-    console.log(`Before function: current_q: q${current_q}`);
     switch(direction)
     {
-      case 'next':
-        if (current_q >= 0 && current_q < totalQuestions - 1) // Using total_q-1 because current_q starts from 0.
+      case 'next': ///////////////////////V1.0 changes, for later on will have current_q < totalQuestions - 1
+        if (current_q >= 0 && current_q < 3) // Using total_q-1 because current_q starts from 0.
         {
             // Hide current question, show next question
             document.getElementById(`q${current_q}`).style.display = 'none';
@@ -185,7 +158,8 @@ function changeQuestion(direction)
         }
 
         // if reached last Question
-        if (current_q == totalQuestions - 1)
+        // if (current_q == totalQuestions - 1)
+        if (current_q == 3)
         {  
             document.getElementById('nextQuestionButton').style.visibility = 'hidden';
             document.getElementById('finishQuizButton').style.display = 'inline-block';
@@ -228,9 +202,8 @@ function changeQuestion(direction)
         break;
     // Idk if this will ever trigger :)
     default:
-        console.log('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere')
+        alert('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere')
     }
-    console.log(`After function: current_q: q${current_q} \n`)
 }
 
 // Record an option pressed to ANSWERS. Also unrecord old and unwanted answers.
@@ -239,7 +212,7 @@ function saveAnswer(button)
 let q_id = (button.id).slice(0,2)
 let q_data = QUESTIONS[q_id]
 let q_type = q_data['type']
-let o_id = (button.id).slice(3,5)
+let o_id = (button.id).slice(3)
 let o_data = q_data['options']['keys'][o_id]
 
 // Record answer based on question type
@@ -253,8 +226,12 @@ switch (q_type) {
         // max number of choices. if not availale set to options length
         let max_options = Number.isInteger(Number(q_data['options']['max'])) ? Number(q_data['options']['max']) : q_data['options']['keys'].length;
 
-        // Assign to empty spot in answers object
-        q_answers = ANSWERS[q_id] // this is an array of length(max_options), starts as empty
+
+        if (!ANSWERS[q_id]) {
+            // Assign to empty spot in answers object
+            ANSWERS[q_id] = Array();
+        }
+        let q_answers = ANSWERS[q_id];
 
         // Check if answer recorded before
         for (let i = 0; i < q_answers.length; i++) {
@@ -268,38 +245,114 @@ switch (q_type) {
 
         // New answer and available space
         if (q_answers.length < max_options) {
-            ANSWERS[q_id].push(o_data)
+            ANSWERS[q_id].push(o_data);
             return;
         }
 
         // New answer, But no space. Shift and uncheck old, push new
         else {
             let ans_toshift_id = ANSWERS[q_id][0]['id'];
-            let button_touncheck_id = `${q_id}-${ans_toshift_id}`
+            let button_touncheck_id = `${q_id}-${ans_toshift_id}`;
             document.getElementById(button_touncheck_id).checked = false;
-            ANSWERS[q_id].shift()
-            ANSWERS[q_id].push(o_data)
+            ANSWERS[q_id].shift();
+            ANSWERS[q_id].push(o_data);
             return;
         }
-    
+        break;
 
-    default: {
+    default:
         console.log('DO NOT MESS WITH MY WEBPAGE PLEASE. I can barely write code, so might have put a Remove("C/System32") somewhere');
-    }
-
-
-    }
+}
 }
 
-// Ran from ANSWERS. scores points for each selected option. Should not add more points per multiple clicks. 
-function saveAnswer_multiSelect(input)
-{
+// Runs on finish quiz button click. Calculates the winner and adds a hidden input field to the form.
+function finishQuiz(event) {
+    
+    // Create a hidden input field to add choices
+    var winner = document.createElement('input');
 
-// let related_movie = input.getAttribute('data-related-movie')
-// let q_id = (input.id).slice(0,2)
-//     POINTS[related_movie][q_id]
+    winner.type = 'hidden';
+    winner.name = 'winner';
+    
+    // Currently sends the whole choice data (later on will refine to save data)
+
+    // Calculate winner from quiz questions
+    try {
+        let rtn = findWinner();
+        if (rtn !== null) {
+            if (typeof rtn === 'object') { winner.value = JSON.stringify(rtn);}
+            else if (rtn == 'equal') { winner.value = 'equal'; alert('Movies are equal in score'); return false;}
+        } else {
+            throw new alert('No valid winner data returned');
+        }
+    } catch (error) {
+        console.error(error.message);
+        alert('An error occurred while determining the winner. Please try again.');
+        return false;
+    } 
+
+    // Remove existing hidden inputs with the same names
+    event.target.querySelectorAll('input[name="winner"]').forEach(el => el.remove());
+
+    // Append the new hidden input field to the form
+    event.target.appendChild(winner);
+
+    // Continue with the form submission
+    return true; // Returning true allows the form submission to proceed
 }
 
-function saveAnswer_singleSelect(input)
-{
+// Return winner based on answers to questions. Run inside finishQuiz function.
+function findWinner() {
+        m0_obj = JSON.parse(sessionStorage.getItem('choice_0'))
+        m1_obj = JSON.parse(sessionStorage.getItem('choice_1'))
+        m0_obj['totalScore'] = 0
+        m1_obj['totalScore'] = 0
+        let movies = [m0_obj, m1_obj];
+        for (let index = 0; index < movies.length; index++) {
+            let m = movies[index];
+        // currently hard coded till question 2 only
+        if (ANSWERS['q0']) {
+            if (ANSWERS['q0']['value'] == 1){ // cares about ratings
+            rating = m['ratingsSummary']['aggregateRating']
+            vote_count = m['ratingsSummary']['voteCount']
+            if (rating != 0){ // available data
+                m['totalScore'] += calculateRatingScore(rating, vote_count) // function takes care of 0 votes.
+            }
+        }}
+        ///////////////////////
+        // q1
+        if (ANSWERS['q1']) {
+            if (ANSWERS['q1']['id'] != 'o0'){ // if user cares about time
+            goal = Number(ANSWERS['q1']['value'])
+            m_runtime = Number(m['runtime']['seconds'])
+            m['totalScore'] += calculateTimeScore(m_runtime, goal) // add decimal score depending on answer
+        }}
+        // q2
+        if (ANSWERS['q2']){
+            for (o = 0; o < ANSWERS['q2'].length; o++){
+                option = ANSWERS['q2'][o]
+                if (option['rel_movie'] == index) {
+                    m['totalScore'] += Number(option['value'])
+                }
+            }
+        }
+        if (ANSWERS['q3']){
+            for (o = 0; o < ANSWERS['q3'].length; o++){
+                option = ANSWERS['q3'][o]
+                if (option['rel_movie'] == index) {
+                    m['totalScore'] += Number(option['value'])
+                }
+            }
+        }
     }
+    // return winner
+    if (movies[0]['totalScore'] > movies[1]['totalScore']){
+        return movies[0]
+    }
+    else if (movies[0]['totalScore'] < movies[1]['totalScore']){
+        return movies[1]
+    }
+    else {
+        return 'equal'
+    }
+}

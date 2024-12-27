@@ -4,15 +4,15 @@
     "questions": {
         "q0": {
             "type": "singleSelect",
-            "related_key": "genres/adult",
-            "text": "Does the movie have to be Family friendly?",
+            "related_key": "ratingsSummary/aggregateRating, ratingsSummary/voteCount",
+            "text": "Do ratings matter to us?",
             "options": {
-                "type":"text",
-                "keys":{
+                "type": "text",
+                "keys": {
                     "o0": {
                         "id": "o0",
                         "text": "No",
-                        "value": "1"
+                        "value": "0"
                     },
                     "o1": {
                         "id": "o1",
@@ -20,11 +20,6 @@
                         "value": "1"
                     }
                 }
-            },
-            "more-info": {
-                "type": "text",
-                "text": "More info?",
-                "description" : "We currently only support IMDB's classification of Adult movies, which might be misleading in some cases. if you want more detailed info about the movies, you can look up commonsensemedia.org"
             }
         },
         "q1": {
@@ -36,18 +31,23 @@
                 "keys": {
                     "o0": {
                         "id": "o0",
-                        "text": "Yeah, 1 hour max",
-                        "value": "1"
+                        "text": "Anything",
+                        "value": "0"
                     },
                     "o1": {
                         "id": "o1",
-                        "text": "Not really, but 2 hours is okay",
-                        "value": "1"
+                        "text": "Around 1h",
+                        "value": "3600"
                     },
                     "o2": {
                         "id": "o2",
-                        "text": "No, We have all the time.",
-                        "value": "1"
+                        "text": "Around 2h",
+                        "value":"7200"
+                    },
+                    "o3": {
+                        "id": "o3",
+                        "text": "Around 3h",
+                        "value":"10800"
                     }
                 }
             },
@@ -59,57 +59,29 @@
             "related_key": "genres",
             "options": {
                 "type": "text",
-                "max": "3",
+                "max": "5",
                 "keys":{
-                    "o0": {
-                        "id": "o0",
-                        "text": "Comedy",
-                        "value": "1"
-                    },
-                    "o1": {
-                        "id": "o1",
-                        "text": "Action",
-                        "value": "1"
-                    },
-                    "o2": {
-                        "id": "o2",
-                        "text": "Drama",
-                        "value": "1"
-                    },
-                    "o3": {
-                        "id": "o3",
-                        "text": "Sci-fi",
-                        "value": "1"
-                    }
                 }
             },
             "more-info": {}
         },
         "q3": {
-            "type": "singleSelect",
-            "related_key": "ratingsSummary/aggregateRating, ratingsSummary/voteCount",
-            "text": "Do ratings matter to us?",
+            "type": "multiSelect",
+            "text": "Lets see about similar movies. Which of these did you watch and like?",
+            "related_key": "similarMovies",
             "options": {
                 "type": "text",
-                "keys": {
-                    "o0": {
-                        "id": "o0",
-                        "text": "No",
-                        "value": "1"
-                    },
-                    "o1": {
-                        "id": "o1",
-                        "text": "Yes",
-                        "value": "1"
-                    }
-                }
+                "max": 3,
+                "keys": {}
             },
-            "more-info": {
+            "more-info":
+            {
                 "type": "text",
                 "text": "More info?",
-                "description" : "We currently only support IMDB's movie ratings, and we believe it is the best rating system currently available."
-            }
-        },
+                "description" : "This movies are gathered from the director, writers, and principal cast of the chosen movies."
+            } 
+    },
+
         "q4": {
             "type": "SingleSelect",
             "text": "Wanna watch a movie made in a specific period?",
@@ -132,20 +104,31 @@
                 "more-info": {}
         },
         "q5": {
-                "type": "multiSelect",
-                "text": "Lets see about similar movies. Which of these did you watch and like?",
-                "related_key": "similarMovies",
-                "options": {
-                    "type": "image",
-                    "keys": {}
-                },
-                "more-info":
-                {
-                    "type": "text",
-                    "text": "More info?",
-                    "description" : "This movies are gathered from the director, writers, and principal cast of the chosen movies."
-                } 
+            "type": "singleSelect",
+            "related_key": "genres/adult",
+            "text": "Does the movie have to be Family friendly?",
+            "options": {
+                "type":"text",
+                "keys":{
+                    "o0": {
+                        "id": "o0",
+                        "text": "No",
+                        "value": "1"
+                    },
+                    "o1": {
+                        "id": "o1",
+                        "text": "Yes",
+                        "value": "1"
+                    }
+                }
+            },
+            "more-info": {
+                "type": "text",
+                "text": "More info?",
+                "description" : "We currently only support IMDB's classification of Adult movies, which might be misleading in some cases. if you want more detailed info about the movies, you can look up commonsensemedia.org"
+            }
         }
     }
 }
+
 
