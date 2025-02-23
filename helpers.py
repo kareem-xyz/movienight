@@ -9,11 +9,7 @@ headers = {
     }
 
 def run_async(func):
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    result = loop.run_until_complete(func)
-    loop.close()
-    return result
+    return asyncio.run(func)
 
 
 # get Data for one movie. Takes movie title and parameters as input.
