@@ -145,4 +145,4 @@ def winner():
     return render_template('winner.html', winner=winner)
     
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
