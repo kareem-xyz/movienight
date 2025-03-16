@@ -3,6 +3,7 @@ from flask_session import Session
 from concurrent.futures import ThreadPoolExecutor
 from helpers import * # import all helper functions from helpers.py
 import json
+import asyncio
 
 # Configure Application
 app = Flask(__name__)
@@ -77,20 +78,21 @@ async def fight():
     except Exception as e:
         return render_template('bug.html', bug=f'Error fetching actor info: {str(e)}')
 
-    movies_IDs_0 = get_actors_movies(list_0)
-    movies_IDs_1 = get_actors_movies(list_1)
+    movies_IDs_0 = await get_actors_movies(list_0)
+    movies_IDs_1 = await get_actors_movies(list_1)
 
     # Remove duplicates from each list (works by converting to dict and back to list)
-    movies_IDs_0 = list(dict.fromkeys(await movies_IDs_0))
-    movies_IDs_1 = list(dict.fromkeys(await movies_IDs_1))
+    movies_IDs_0 = list(dict.fromkeys(movies_IDs_0))
+    movies_IDs_1 = list(dict.fromkeys(movies_IDs_1))
 
     # Remove overlapping movies from lists (I dont want to ask about a movie if it will add points to both movies)
+    temp = movies_IDs_0.copy()  # Create a copy of movies_IDs_0
     movies_IDs_0 = remove_overlap(movies_IDs_0, movies_IDs_1)
-    movies_IDs_1 = remove_overlap(movies_IDs_1, movies_IDs_0)
+    movies_IDs_1 = remove_overlap(movies_IDs_1, temp)
 
     # Run API for Movies Data
-    data_0 = get_all_movies_info(IDs_list=movies_IDs_0)
-    data_1 = get_all_movies_info(IDs_list=movies_IDs_1)
+    data_0 = await get_all_movies_info(movies_IDs_0)
+    data_1 = await get_all_movies_info(movies_IDs_1)
 
     # Format JSON correctly.
     data_0 = replace_quotes(data_0)
@@ -104,14 +106,14 @@ async def fight():
 
 @app.route('/result', methods=['GET'])
 def result():
-    with open('static/assets/questions.json', 'r') as f:
+    with open('movienight/static/assets/questions.json', 'r') as f:
         questions_json = json.load(f)
     q = questions_json['questions']
     s0 = session.get('m0_similarMovies')
     s1 = session.get('m1_similarMovies')
 
     if not s0 or not s1:
-        return redirect('index')
+        return render_template('bug.html', bug='Did not receive similar movies. Could be due to duplication. ERROR 101')
 
     return render_template('fight.html', questions=q, m0_similarMovies=s0, m1_similarMovies=s1)
 
