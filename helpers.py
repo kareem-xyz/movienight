@@ -1,12 +1,17 @@
 import requests # Used in the query Api
 import httpx
 import asyncio
+from os import getenv
+
+# from dotenv import load_dotenv for local testing
+# load_dotenv() # This line reads your .env file which should have the rapid api key and flask key
 
 # Used in each Api request.
 headers = {
-        "X-RapidAPI-Key": "dcabfff8b1msh47092185488eb22p1b47e2jsn45e1e47ab1f7",
+        "X-RapidAPI-Key": getenv("RAPIDAPI_SECRET_KEY"),
         "X-RapidAPI-Host": "moviesdatabase.p.rapidapi.com"
     }
+print(getenv("RAPIDAPI_SECRET_KEY"))
 
 def run_async(func):
     loop = asyncio.new_event_loop()
@@ -48,7 +53,7 @@ def get_actors_movies(lst):
 # Data for list of actors. Asyncio. Takes list of cast IDs.
 async def get_all_actors_info(cast_list):
     coroutines = [get_actor_info(actor_id) for actor_id in cast_list]
-    return await asyncio.gather(*coroutines)
+    return await asyncio.gather(*coroutines, return_exceptions=False)
     
 
 # Data for One actor. Asyncio Takes a single actor ID.

@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_session import Session
 from concurrent.futures import ThreadPoolExecutor
-from helpers import * # import all helper function from helper.py
+from helpers import * # import all helper function from helper.pyy
 import json
 
 # Configure Application
@@ -9,7 +9,7 @@ app = Flask(__name__)
 executor = ThreadPoolExecutor()
 
 # Set the secret key for session
-app.secret_key = '_5#y2LF4Qsbfiqbf2768er4vef6acg7egt7b9rgv634vbt7fgve'
+app.secret_key = getenv('FLASK_SECRET_KEY')
 app.config['SESSION_TYPE'] = 'filesystem' # use filesystem storage (server storage)
 app.config['SESSION_PERMANENT'] = False
 app.config["TEMPLATES_AUTO_RELOAD"] = True # Ensure templates are auto-reloaded
