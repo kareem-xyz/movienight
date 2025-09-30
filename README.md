@@ -1,7 +1,13 @@
 # MovieNight
+#### A Flask app to find the best of two movies by asking the user indirect questions. The idea is to find which movie will work best for a given audience, by inferring from simple and deeper questions.
+### Live Demo: [Try it!](https://movienight-y0a1.onrender.com/)
+### Video Demo: [Watch Here](https://youtu.be/RSV2H2RpJKY)
 
-#### Video Demo: [Watch Here](https://youtu.be/RSV2H2RpJKY)
-#### Description: A Flask app to find the best of two movies by asking the user indirect questions. The idea is to find which movie will work best for a given audience, by inferring from simple and deeper questions.
+## Contact
+- **Created By**: Kareem Ahmed
+- **Email**: kareemrashad.sd@gmail.com | ahmedke@mail.uc.edu
+- [**Linkedin**](https://www.linkedin.com/in/ahmedke) | [**Github**](https://www.github.com/kareem-xyz)
+- **API Provider**: Adrian Massimo from [RapidAPI](https://rapidapi.com/SAdrian/api/moviesdatabase/)
 
 ## Idea
 I have often found myself spending hours and hours looking for the best movies of the night, sometimes between multiple movies, and ending up losing time and energy in this way. The idea of this website is to aid you in choosing a movie based on questions and assessments about a given 2 movies that you want to decide between. The entire philosophy is to understand which movie will work out best for you, without actually asking you this dreadful question.
@@ -102,10 +108,13 @@ Future versions will include:
     ```
 
 4. Set up environment variables:
-    ```sh
-    export FLASK_APP=app.py
-    export FLASK_ENV=development
-    ```
+  ```sh
+  export FLASK_APP=app.py
+  export FLASK_ENV=development
+  export RAPIDAPI_SECRET_KEY="" # Get from https://rapidapi.com/rapidapi-org1-rapidapi-org-default/api/imdb236
+  # Any random complex key. The example below is for testing only:
+  export FLASK_SECRET_KEY="nE2SHGfUjR9brksqARZKxGguXJ64hV3Kux4vkahyAfjWVnj7s7K44dBDxVgyrLgD"
+  ```
 
 5. Run the application:
     ```sh
@@ -118,10 +127,3 @@ Future versions will include:
 2. Enter the names of two movies you want to compare and click "Search".
 3. Answer the quiz questions to determine which movie is better for you.
 4. View the winning movie on the winner page.
-
-## Contact
-
-- **Author**: Kareem Rashad
-- **Email**: [kareemrashad.sd@gmail.com](mailto:kareemrashad.sd@gmail.com)
-- **Discord**: [Discord Channel](https://discord.com/channels/711320935365345281)
-- **API Provider**: Adrian Massimo from [RapidAPI](https://rapidapi.com/SAdrian/api/moviesdatabase/)
